@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Photo editor v2</string>
+    <string name="main_photo">Main Photo</string>
+    <string name="open_image_button">OPEN</string>
+    <string name="open_image">tap everywhere to select image</string>
+    <string name="button_next">NEXT</string>
+    <string name="back_to_first_page">HOME</string>
+    <string name="back">BACK</string>
+    <string name="down_name_filters">Instruments</string>
+    <string name="down_name_style">Styles</string>
+    <string name="down_name_save">Save</string>
+    <string name="name_turn_algorithm">Turn</string>
+    <string name="name_color_correction_algorithm">Color correction</string>
+    <string name="name_scaling_algorithm">Scaling</string>
+</resources>
