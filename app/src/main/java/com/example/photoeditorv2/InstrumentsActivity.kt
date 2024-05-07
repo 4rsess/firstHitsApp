@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 
 class InstrumentsActivity : AppCompatActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.second_activity_with_instrumets)

@@ -12,4 +12,6 @@
     <string name="name_turn_algorithm">Turn</string>
     <string name="name_color_correction_algorithm">Color correction</string>
     <string name="name_scaling_algorithm">Scaling</string>
+    <string name="style_negative">Negative</string>
+    <string name="style_red">Red</string>
 </resources>
