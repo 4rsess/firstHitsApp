@@ -1,23 +1,26 @@
 package com.example.photoeditorv2
 
+import android.content.ContentValues
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
-import android.graphics.Canvas
+import android.provider.MediaStore
+import android.widget.EditText
+import android.widget.Toast
+import java.io.IOException
 
 class FirstAlgorithm : AppCompatActivity(){
 
-
+    private lateinit var originalBitmap: Bitmap
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_page_for_firstalgorithm)
 
-        //копирование картинки
+        //копирование исходной картинки
         val app = application as StorageUriImage
         val uri = app.selectedImageUri
         if (uri != null) {
@@ -26,53 +29,116 @@ class FirstAlgorithm : AppCompatActivity(){
             imageView.setImageURI(uri)
         }
 
+        //копирование и сохранение оригинального изображения для кнопки сохранения
+        val imageView = findViewById<ImageView>(R.id.CopyImageInputFilter1)
+        val drawable = imageView.drawable
+        if (drawable is BitmapDrawable) {
+            originalBitmap = drawable.bitmap.copy(Bitmap.Config.ARGB_8888, true)
+        }
+
+        val saveButton = findViewById<ImageView>(R.id.battonSaveFromFilter1)
+        saveButton.setOnClickListener {
+            val imageView = findViewById<ImageView>(R.id.CopyImageInputFilter1)
+            val drawable = imageView.drawable
+            if (drawable is BitmapDrawable) {
+                saveImageToGallery(drawable.bitmap)
+            }
+        }
+
+        val cancelBtn = findViewById<ImageView>(R.id.cancelBtn)
+        cancelBtn.setOnClickListener {
+            imageView.setImageBitmap(originalBitmap)
+        }
+
+
         val backToHome = findViewById<TextView>(R.id.back)
         backToHome.setOnClickListener {
             val intent = Intent(this, InstrumentsActivity::class.java)
             startActivity(intent)
         }
 
-        val rotateButton = findViewById<ImageView>(R.id.bottomReverse)
-        val imageView = findViewById<ImageView>(R.id.CopyImageInputFilter1)
 
-        //получаем изображение, поворачиваем и устанавливаем обратно в ImageView
+        //реализация поворота
+        val angle = findViewById<EditText>(R.id.scaleAngle)
+
+        val rotateButton = findViewById<TextView>(R.id.rotateBtn)
         rotateButton.setOnClickListener {
+            val angleString = angle.text.toString()
+            val angle = angleString.toFloatOrNull()
 
-            val drawable = imageView.drawable
-            val bitmap = drawableToBitmap(drawable)
+            angle?.let {
+                rotateImage(angle)
+            } ?: run {
+                Toast.makeText(this, "Введите корректный угол", Toast.LENGTH_SHORT).show()
+            }
+        }
 
-            val rotatedBitmap = rotateBitmap(bitmap)
+
+    }
+    private fun saveImageToGallery(bitmap: Bitmap) {
+        val resolver = applicationContext.contentResolver
+        val contentValues = ContentValues().apply {
+            put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+        }
+
+        val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+
+        uri?.let { imageUri ->
+            try {
+                resolver.openOutputStream(imageUri)?.use { outputStream ->
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                    outputStream.flush()
+                }
+
+                Toast.makeText(this, "Изображение сохранено!", Toast.LENGTH_SHORT).show()
+            } catch (e: IOException) {
+                e.printStackTrace()
+                Toast.makeText(this, "Ошибка", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
+    private fun rotateImage(degrees: Float) {
+        val imageView = findViewById<ImageView>(R.id.CopyImageInputFilter1)
+        val drawable = imageView.drawable
+        if (drawable is BitmapDrawable) {
+            val bitmap = drawable.bitmap
+            val width = bitmap.width
+            val height = bitmap.height
+
+            val radians = Math.toRadians(degrees.toDouble())
+            val sin = Math.sin(radians)
+            val cos = Math.cos(radians)
+
+            val newWidth = (width * Math.abs(cos) + height * Math.abs(sin)).toInt()
+            val newHeight = (width * Math.abs(sin) + height * Math.abs(cos)).toInt()
+
+            val rotatedBitmap = Bitmap.createBitmap(newWidth, newHeight, bitmap.config)
+
+            val cx = width / 2f
+            val cy = height / 2f
+
+            val newCx = newWidth / 2f
+            val newCy = newHeight / 2f
+
+            val pixels = IntArray(newWidth * newHeight)
+
+            for (y in 0 until newHeight) {
+                for (x in 0 until newWidth) {
+                    val rotatedX = (cos * (x - newCx) + sin * (y - newCy) + cx).toInt()
+                    val rotatedY = (-sin * (x - newCx) + cos * (y - newCy) + cy).toInt()
+
+                    if (rotatedX in 0 until width && rotatedY in 0 until height) {
+                        pixels[y * newWidth + x] = bitmap.getPixel(rotatedX, rotatedY)
+                    }
+                }
+            }
+
+            rotatedBitmap.setPixels(pixels, 0, newWidth, 0, 0, newWidth, newHeight)
 
             imageView.setImageBitmap(rotatedBitmap)
         }
-
     }
 
-    //конвертация drawable в bitmap
-    private fun drawableToBitmap(drawable: Drawable): Bitmap {
-        val bitmap: Bitmap = if (drawable is BitmapDrawable) {
-            drawable.bitmap
-        } else {
-            val width = drawable.intrinsicWidth
-            val height = drawable.intrinsicHeight
-            Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888).apply {
-                val canvas = Canvas(this)
-                drawable.setBounds(0, 0, canvas.width, canvas.height)
-                drawable.draw(canvas)
-            }
-        }
-        return bitmap
-    }
-
-    private fun rotateBitmap(source: Bitmap): Bitmap {
-        val width = source.width
-        val height = source.height
-        val rotatedBitmap = Bitmap.createBitmap(height, width, Bitmap.Config.ARGB_8888)
-        for (x in 0 until width) {
-            for (y in 0 until height) {
-                rotatedBitmap.setPixel(height - y - 1, x, source.getPixel(x, y))
-            }
-        }
-        return rotatedBitmap
-    }
 }

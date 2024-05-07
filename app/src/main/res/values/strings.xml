@@ -14,4 +14,6 @@
     <string name="name_scaling_algorithm">Scaling</string>
     <string name="style_negative">Negative</string>
     <string name="style_red">Red</string>
+    <string name="rotateBtn">TURN</string>
+    <string name="scale_for_third_algorithm">SCALING</string>
 </resources>
