@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/buttonStyle"
+        android:orderInCategory="1"
+        android:title="@string/down_name_style" />
+    <item
+        android:id="@+id/buttonFilters"
+        android:orderInCategory="2"
+        android:title="@string/down_name_filters" />
+    <item
+        android:id="@+id/buttonSave"
+        android:orderInCategory="3"
+        android:title="@string/down_name_save" />
+
+
+</menu>

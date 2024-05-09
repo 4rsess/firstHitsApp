@@ -5,38 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_bg_color">
+
     <View
-        android:id="@+id/topBarFilter2"
+        android:id="@+id/topBarFilter1"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-    <TextView
-        android:id="@+id/back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/back"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/topBarFilter2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.042"
-        app:layout_constraintStart_toStartOf="@+id/topBarFilter2"
-        app:layout_constraintTop_toTopOf="@+id/topBarFilter2"
-        app:layout_constraintVertical_bias="0.516" />
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
-        android:id="@+id/CopyImageInputFilter2"
+        android:id="@+id/image"
         android:layout_width="350dp"
         android:layout_height="550dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topBarFilter2"
-        app:layout_constraintVertical_bias="0.15"/>
+        app:layout_constraintTop_toBottomOf="@+id/topBarFilter1"
+        app:layout_constraintVertical_bias="0.15">
+
+    </ImageView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:background="@color/white"
@@ -45,27 +37,39 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
-            android:id="@+id/negative"
+            android:id="@+id/buttonSaveFromFilter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="save"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.044"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.6"
+            app:layout_constraintStart_toEndOf="@+id/buttonReverse"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/icon_colorcorrection_algorithm" />
+            app:srcCompat="@drawable/ic_tikk" />
 
         <ImageView
-            android:id="@+id/red"
+            android:id="@+id/buttonReverse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="buttonReverse"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.269"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/icon_colorcorrection_algorithm" />
+            app:srcCompat="@drawable/ic_turn_algorithm" />
+
+        <ImageView
+            android:id="@+id/buttonExitFromFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="exit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/buttonReverse"
+            app:layout_constraintHorizontal_bias="0.40"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_x" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

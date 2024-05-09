@@ -1,4 +1,4 @@
-package com.example.photoeditorv2
+package com.example.photoeditor
 
 import org.junit.Test
 

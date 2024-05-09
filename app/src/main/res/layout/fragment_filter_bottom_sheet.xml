@@ -3,97 +3,78 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/main_bg_color">
 
+
     <ImageView
-        android:id="@+id/ImageForFilters"
+        android:id="@+id/filter1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-         />
+        app:srcCompat="@drawable/ic_turn_algorithm" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_height="210dp"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
+    <ImageView
+        android:id="@+id/filter2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toBottomOf="@+id/nameFilter1"
+        app:srcCompat="@drawable/ic_colorcorrection_algorithm" />
 
-        <ImageView
-            android:id="@+id/filter1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="12dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/icon_turn_algorithm" />
+    <ImageView
+        android:id="@+id/filter3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toEndOf="@+id/filter1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_scale_algorithm" />
 
-        <ImageView
-            android:id="@+id/filter2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="12dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nameFilter1"
-            app:srcCompat="@drawable/icon_colorcorrection_algorithm" />
+    <TextView
+        android:id="@+id/nameFilter1"
+        android:layout_width="40dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:gravity="center"
+        android:text="@string/name_turn_algorithm"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/filter1"
+        app:layout_constraintStart_toStartOf="@+id/filter1"
+        app:layout_constraintTop_toBottomOf="@+id/filter1" />
 
-        <ImageView
-            android:id="@+id/filter3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="44dp"
-            android:layout_marginTop="12dp"
-            app:layout_constraintStart_toEndOf="@+id/filter1"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_scaling_algorithm" />
+    <TextView
+        android:id="@+id/nameFilter2"
+        android:layout_width="85dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:gravity="center"
+        android:text="@string/name_color_correction_algorithm"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/filter2"
+        app:layout_constraintStart_toStartOf="@+id/filter2"
+        app:layout_constraintTop_toBottomOf="@+id/filter2" />
 
-        <TextView
-            android:id="@+id/nameFilter1"
-            android:layout_width="40dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="33dp"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:gravity="center"
-            android:text="@string/name_turn_algorithm"
-            android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/filter1" />
+    <TextView
+        android:id="@+id/nameFilter3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:gravity="center"
+        android:text="@string/name_scale_algorithm"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/filter3"
+        app:layout_constraintStart_toStartOf="@+id/filter3"
+        app:layout_constraintTop_toBottomOf="@+id/filter3" />
 
-        <TextView
-            android:id="@+id/nameFilter2"
-            android:layout_width="85dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="11dp"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:gravity="center"
-            android:text="@string/name_color_correction_algorithm"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/filter2" />
-
-        <TextView
-            android:id="@+id/nameFilter3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="44dp"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:gravity="center"
-            android:text="@string/name_scaling_algorithm"
-            android:textSize="15sp"
-            app:layout_constraintStart_toEndOf="@+id/nameFilter1"
-            app:layout_constraintTop_toBottomOf="@+id/filter3" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
