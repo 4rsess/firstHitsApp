@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/main_bg_color">
 
+
     <View
         android:id="@+id/topBarFilter5"
         android:layout_width="wrap_content"
@@ -28,7 +29,20 @@
         app:layout_constraintTop_toTopOf="@+id/topBarFilter5"
         app:layout_constraintVertical_bias="0.516" />
 
+
+    <FrameLayout
+        android:id="@+id/drawingContainer"
+        android:layout_width="350dp"
+        android:layout_height="550dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topBarFilter5"
+        app:layout_constraintVertical_bias="0.4" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout3"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:background="@color/white"
@@ -50,5 +64,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
