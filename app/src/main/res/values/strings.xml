@@ -16,4 +16,8 @@
     <string name="style_red">Red</string>
     <string name="rotateBtn">TURN</string>
     <string name="scale_for_third_algorithm">SCALING</string>
+    <string name="name_splines_algorithm">Splines</string>
+    <string name="name_facerecognition_algorithm">Face recognition</string>
+    <string name="recognizeBtn">RECOGNIZE</string>
+    <string name="transformationBtn">TRANSFORMATION</string>
 </resources>

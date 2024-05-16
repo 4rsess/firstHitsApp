@@ -28,6 +28,8 @@
         <activity android:name=".FirstAlgorithm" android:screenOrientation="portrait"/>
         <activity android:name=".SecondAlgorithm" android:screenOrientation="portrait"/>
         <activity android:name=".ThirdAlgorithm" android:screenOrientation="portrait"/>
+        <activity android:name=".FourthAlgorithm" android:screenOrientation="portrait"/>
+        <activity android:name=".FifthAlgorithm" android:screenOrientation="portrait"/>
         <activity android:name=".StorageUriImage" android:screenOrientation="portrait"/>
 
         <meta-data

@@ -54,6 +54,28 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_scaling_algorithm" />
 
+        <ImageView
+            android:id="@+id/filter4"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            android:layout_marginStart="37dp"
+            android:layout_marginTop="2dp"
+            app:layout_constraintStart_toEndOf="@+id/filter2"
+            app:layout_constraintTop_toBottomOf="@+id/nameFilter3"
+            app:srcCompat="@drawable/ic_facerecognition_algorithm" />
+
+        <ImageView
+            android:id="@+id/filter5"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintStart_toEndOf="@+id/filter3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_splines_algorithm" />
+
+
+
         <TextView
             android:id="@+id/nameFilter1"
             android:layout_width="40dp"
@@ -92,6 +114,37 @@
             android:textSize="15sp"
             app:layout_constraintStart_toEndOf="@+id/nameFilter1"
             app:layout_constraintTop_toBottomOf="@+id/filter3" />
+
+        <TextView
+            android:id="@+id/nameFilter4"
+            android:layout_width="85dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginBottom="19dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:gravity="center"
+            android:text="@string/name_facerecognition_algorithm"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/nameFilter2" />
+
+        <TextView
+            android:id="@+id/nameFilter5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="37dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="122dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:gravity="center"
+            android:text="@string/name_splines_algorithm"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/nameFilter3"
+            app:layout_constraintTop_toBottomOf="@+id/filter5"
+            app:layout_constraintVertical_bias="0.0" />
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
