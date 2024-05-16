@@ -26,7 +26,7 @@ import java.util.Date
 var imageObjects = EditImages()
 
 class MainEditActivity : AppCompatActivity() {
-    private lateinit var firstImage: Uri
+    private lateinit var firstImageUri: Uri
 
     private lateinit var binding: ActivityMainEditBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,14 +36,14 @@ class MainEditActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        firstImage = intent.extras!!.get("uri") as Uri
-        Log.d("uri", firstImage.toString())
-        Log.d("uri", firstImage.path.toString())
+        firstImageUri = intent.extras!!.get("uri") as Uri
+        Log.d("uri", firstImageUri.toString())
+        Log.d("uri", firstImageUri.path.toString())
         imageObjects.addImage()
 
         Log.d("log", "${imageObjects.getLastImage()}")
 
-        val bmp = MediaStore.Images.Media.getBitmap(contentResolver, firstImage as Uri?)
+        val bmp = MediaStore.Images.Media.getBitmap(contentResolver, firstImageUri as Uri?)
         Log.d("log", "${bmp}")
 
         openFileOutput(imageObjects.getLastImage().filename, MODE_PRIVATE).use { stream ->
@@ -90,17 +90,39 @@ class MainEditActivity : AppCompatActivity() {
     fun saveAsOriginal() {
         val bmp = drawableToBitmap(binding.image1.drawable)
 
-        val path = getRealPathFromURI_API19(this,firstImage)
-        Log.d("path",path)
-        FileOutputStream(path).use {
-            if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, it)) {
-                throw IOException("Couldn't save bitmap.")
-            } else {
-                Log.d("dk", "succes")
+        Log.d("uri", firstImageUri.toString())
+        if (firstImageUri.toString().contains("Camera")) {
+            Log.d("camera", "camera")
+
+            var filename: String =""
+            for (ind in firstImageUri.toString().length - 1 downTo 0) {
+                if (firstImageUri.toString()[ind] == '/') {
+                    filename = firstImageUri.toString().substring(ind + 1)
+                    break
+                }
+            }
+
+
+            FileOutputStream(File(Pathes.externalCamera,filename)).use {
+                if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, it)) {
+                    throw IOException("Couldn't save bitmap.")
+                } else {
+                    Log.d("dk", "succes")
+                }
+            }
+        } else {
+            val path = getRealPathFromURI(this, firstImageUri)
+            Log.d("path", path)
+            FileOutputStream(path).use {
+                if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, it)) {
+                    throw IOException("Couldn't save bitmap.")
+                } else {
+                    Log.d("dk", "succes")
+                }
             }
         }
-    }
 
+    }
 
 
     @SuppressLint("SimpleDateFormat")
@@ -144,7 +166,7 @@ class MainEditActivity : AppCompatActivity() {
         return bitmap
     }
 
-    fun getRealPathFromURI_API19(context: Context, uri: Uri?): String {
+    fun getRealPathFromURI(context: Context, uri: Uri?): String {
         var filePath = ""
         val wholeID = DocumentsContract.getDocumentId(uri)
 

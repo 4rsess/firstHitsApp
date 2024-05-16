@@ -2,6 +2,7 @@ package com.example.photoeditor
 
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -23,6 +24,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.example.photoeditor.databinding.ActivityImageGettingBinding
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
 
 
 class GettingImageActivity : AppCompatActivity() {
@@ -118,11 +121,14 @@ class GettingImageActivity : AppCompatActivity() {
         }
 
 
+    @SuppressLint("SimpleDateFormat")
     private fun cameraChoose() {
         val i = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val resultFilename = "image_$timeStamp.jpg"
 
-        val file = File(Pathes.externalCamera, "test.jpg")
+        val file = File(Pathes.externalCamera, resultFilename)
 
         selectedImageUri =
             FileProvider.getUriForFile( //сам не шарю что за штука, но без неё камера не робит
