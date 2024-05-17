@@ -20,4 +20,5 @@
     <string name="name_facerecognition_algorithm">Face recognition</string>
     <string name="recognizeBtn">RECOGNIZE</string>
     <string name="transformationBtn">TRANSFORMATION</string>
+    <string name="clearBtn">CLEAR</string>
 </resources>
