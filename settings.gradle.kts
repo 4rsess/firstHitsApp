@@ -1,3 +1,5 @@
+
+
 pluginManagement {
     repositories {
         google {
@@ -21,3 +23,14 @@ dependencyResolutionManagement {
 
 rootProject.name = "Photo Editor"
 include(":app")
+
+
+
+include (":opencv")
+
+val opencvsdk:String by settings
+project(":opencv").projectDir = File(opencvsdk + "/sdk")
+
+//project(":opencv").projectDir = File("C:/OpenCV-android-sdk" + "/sdk")
+
+
