@@ -12,20 +12,18 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.io.IOException
+import android.graphics.Canvas
 
-
-class ThirdAlgorithm : AppCompatActivity(){
+class ThirdAlgorithm : AppCompatActivity() {
 
     private lateinit var originalBitmap: Bitmap
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_page_for_thirdalgorithm)
 
-        //копирование картинки
         val app = application as StorageUriImage
         val uri = app.selectedImageUri
         if (uri != null) {
-
             val imageView = findViewById<ImageView>(R.id.CopyImageInputFilter3)
             imageView.setImageURI(uri)
         }
@@ -36,7 +34,6 @@ class ThirdAlgorithm : AppCompatActivity(){
             startActivity(intent)
         }
 
-        //копирование и сохранение оригинального изображения для кнопки сохранения
         val imageView = findViewById<ImageView>(R.id.CopyImageInputFilter3)
         val drawable = imageView.drawable
         if (drawable is BitmapDrawable) {
@@ -52,19 +49,18 @@ class ThirdAlgorithm : AppCompatActivity(){
             }
         }
 
-        val scaleButton = findViewById<TextView>(R.id.scaleBtn)
-        scaleButton.setOnClickListener {
-            val factorInput = findViewById<EditText>(R.id.scaleFactor)
-            val factorText = factorInput.text.toString()
-            if (factorText.isNotEmpty()) {
-                val factor = factorText.toFloat()
-                scaleImage(factor)
+        val scaleFactorInput = findViewById<EditText>(R.id.scaleFactor)
+        val scaleFactorBtn = findViewById<TextView>(R.id.scaleBtn)
+        scaleFactorBtn.setOnClickListener {
+            val scaleFactor = scaleFactorInput.text.toString().toFloatOrNull()
+            if (scaleFactor != null) {
+                scaleAndCropImage(scaleFactor)
             } else {
-                Toast.makeText(this, "Введите корректный коэффицент", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Введите корректный коэффициент", Toast.LENGTH_SHORT).show()
             }
         }
-
     }
+
     private fun saveImageToGallery(bitmap: Bitmap) {
         val resolver = applicationContext.contentResolver
         val contentValues = ContentValues().apply {
@@ -87,17 +83,35 @@ class ThirdAlgorithm : AppCompatActivity(){
             }
         }
     }
-    private fun scaleImage(scaleFactor: Float) {
+
+    private fun scaleAndCropImage(scaleFactor: Float) {
+        val originalWidth = originalBitmap.width
+        val originalHeight = originalBitmap.height
+
+        val newWidth = (originalWidth * scaleFactor).toInt()
+        val newHeight = (originalHeight * scaleFactor).toInt()
+
+        val scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true)
+
+        //если изображение уменьшается, вмешиваемся в ориг размеры
+        //если изображение увеличивается, обрезаем для соответствия ориг размеров
+        val croppedBitmap = if (scaleFactor >= 1) {
+            //границы для увеличенного изображения
+            val left = (scaledBitmap.width - originalWidth) / 2
+            val top = (scaledBitmap.height - originalHeight) / 2
+            Bitmap.createBitmap(scaledBitmap, left, top, originalWidth, originalHeight)
+        } else {
+            //границы для уменьшенного изображения
+            val paddedBitmap = Bitmap.createBitmap(originalWidth, originalHeight, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(paddedBitmap)
+            val left = (originalWidth - newWidth) / 2
+            val top = (originalHeight - newHeight) / 2
+            canvas.drawBitmap(scaledBitmap, left.toFloat(), top.toFloat(), null)
+            paddedBitmap
+        }
+
         val imageView = findViewById<ImageView>(R.id.CopyImageInputFilter3)
-        val layoutParams = imageView.layoutParams
-        val originalWidth = imageView.drawable.intrinsicWidth
-        val originalHeight = imageView.drawable.intrinsicHeight
-        val newWidth = ((originalWidth * scaleFactor)/2).toInt()
-        val newHeight = ((originalHeight * scaleFactor)/2).toInt()
-        layoutParams.width = newWidth
-        layoutParams.height = newHeight
-        imageView.layoutParams = layoutParams
-        imageView.scaleType = ImageView.ScaleType.FIT_XY
+        imageView.setImageBitmap(croppedBitmap)
     }
 
 }
