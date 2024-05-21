@@ -21,4 +21,6 @@
     <string name="recognizeBtn">RECOGNIZE</string>
     <string name="transformationBtn">TRANSFORMATION</string>
     <string name="clearBtn">CLEAR</string>
+    <string name="IncreaseBtn">INCREASE CLARITY</string>
+    <string name="name_blurredmasking_algorithm">Blurred masking</string>
 </resources>

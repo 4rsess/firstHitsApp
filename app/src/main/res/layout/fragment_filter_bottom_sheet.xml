@@ -28,7 +28,7 @@
             android:id="@+id/filter1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
+            android:layout_marginStart="34dp"
             android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -38,7 +38,7 @@
             android:id="@+id/filter2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
+            android:layout_marginStart="34dp"
             android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameFilter1"
@@ -48,7 +48,7 @@
             android:id="@+id/filter3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="44dp"
+            android:layout_marginStart="46dp"
             android:layout_marginTop="12dp"
             app:layout_constraintStart_toEndOf="@+id/filter1"
             app:layout_constraintTop_toTopOf="parent"
@@ -58,7 +58,7 @@
             android:id="@+id/filter4"
             android:layout_width="62dp"
             android:layout_height="62dp"
-            android:layout_marginStart="37dp"
+            android:layout_marginStart="39dp"
             android:layout_marginTop="2dp"
             app:layout_constraintStart_toEndOf="@+id/filter2"
             app:layout_constraintTop_toBottomOf="@+id/nameFilter3"
@@ -68,19 +68,28 @@
             android:id="@+id/filter5"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_marginStart="44dp"
+            android:layout_marginStart="46dp"
             android:layout_marginTop="12dp"
             app:layout_constraintStart_toEndOf="@+id/filter3"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_splines_algorithm" />
 
+        <ImageView
+            android:id="@+id/filter7"
+            android:layout_width="49dp"
+            android:layout_height="49dp"
+            android:layout_marginStart="52dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintStart_toEndOf="@+id/filter5"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_increaseclarity_algorithm" />
 
 
         <TextView
             android:id="@+id/nameFilter1"
             android:layout_width="40dp"
             android:layout_height="20dp"
-            android:layout_marginStart="33dp"
+            android:layout_marginStart="38dp"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/montserrat_medium"
             android:gravity="center"
@@ -93,7 +102,7 @@
             android:id="@+id/nameFilter2"
             android:layout_width="85dp"
             android:layout_height="40dp"
-            android:layout_marginStart="11dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/montserrat_medium"
             android:gravity="center"
@@ -106,7 +115,7 @@
             android:id="@+id/nameFilter3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="44dp"
+            android:layout_marginStart="47dp"
             android:layout_marginTop="4dp"
             android:fontFamily="@font/montserrat_medium"
             android:gravity="center"
@@ -119,7 +128,7 @@
             android:id="@+id/nameFilter4"
             android:layout_width="85dp"
             android:layout_height="40dp"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="10dp"
             android:layout_marginBottom="19dp"
             android:fontFamily="@font/montserrat_medium"
             android:gravity="center"
@@ -132,7 +141,7 @@
             android:id="@+id/nameFilter5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="37dp"
+            android:layout_marginStart="38dp"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="122dp"
             android:fontFamily="@font/montserrat_medium"
@@ -142,9 +151,20 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/nameFilter3"
             app:layout_constraintTop_toBottomOf="@+id/filter5"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="1.0" />
 
-
+        <TextView
+            android:id="@+id/nameFilter7"
+            android:layout_width="85dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="3dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:gravity="center"
+            android:text="@string/name_blurredmasking_algorithm"
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@+id/nameFilter5"
+            app:layout_constraintTop_toBottomOf="@+id/filter7" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
