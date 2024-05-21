@@ -12,17 +12,16 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.io.IOException
 
-class SeventhAlgorithm: AppCompatActivity() {
-
+class SixthAlgorithm : AppCompatActivity() {
     private lateinit var originalBitmap: Bitmap
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_page_for_seventhalgorithm)
+        setContentView(R.layout.main_page_for_sixthalgorithm)
 
         val app = application as StorageUriImage
         val uri = app.selectedImageUri
         if (uri != null) {
-            val imageView = findViewById<ImageView>(R.id.CopyImageInputFilter7)
+            val imageView = findViewById<ImageView>(R.id.CopyImageInputFilter6)
             imageView.setImageURI(uri)
         }
 
@@ -32,7 +31,7 @@ class SeventhAlgorithm: AppCompatActivity() {
             startActivity(intent)
         }
 
-        val imageView = findViewById<ImageView>(R.id.CopyImageInputFilter7)
+        val imageView = findViewById<ImageView>(R.id.CopyImageInputFilter6)
         val drawable = imageView.drawable
         if (drawable is BitmapDrawable) {
             originalBitmap = drawable.bitmap.copy(Bitmap.Config.ARGB_8888, true)
@@ -40,13 +39,15 @@ class SeventhAlgorithm: AppCompatActivity() {
 
         val saveButton = findViewById<ImageView>(R.id.saveBtn)
         saveButton.setOnClickListener {
-            val imageView = findViewById<ImageView>(R.id.CopyImageInputFilter7)
+            val imageView = findViewById<ImageView>(R.id.CopyImageInputFilter6)
             val drawable = imageView.drawable
             if (drawable is BitmapDrawable) {
                 saveImageToGallery(drawable.bitmap)
             }
         }
+
     }
+
     private fun saveImageToGallery(bitmap: Bitmap) {
         val resolver = applicationContext.contentResolver
         val contentValues = ContentValues().apply {

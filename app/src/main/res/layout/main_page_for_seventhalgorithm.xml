@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_bg_color">
@@ -28,7 +29,7 @@
     <ImageView
         android:id="@+id/CopyImageInputFilter7"
         android:layout_width="350dp"
-        android:layout_height="550dp"
+        android:layout_height="500dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -36,7 +37,31 @@
         app:layout_constraintTop_toBottomOf="@id/topBarFilter7"
         app:layout_constraintVertical_bias="0.15" />
 
+    <SeekBar
+        android:id="@+id/radiusSeekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:max="50"
+        app:layout_constraintBottom_toTopOf="@+id/multiplierSeekBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/CopyImageInputFilter7"
+        app:layout_constraintVertical_bias="0.739" />
+
+    <SeekBar
+        android:id="@+id/multiplierSeekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:max="200"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout7"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:background="@color/white"

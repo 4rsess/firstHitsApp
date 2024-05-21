@@ -54,6 +54,12 @@ class FilterList : BottomSheetDialogFragment() {
             startActivity(intent)
             dismiss()
         }
+        val filter6 = view.findViewById<ImageView>(R.id.filter6)
+        filter6.setOnClickListener {
+            val intent = Intent(activity, SixthAlgorithm::class.java)
+            startActivity(intent)
+            dismiss()
+        }
         val filter7 = view.findViewById<ImageView>(R.id.filter7)
         filter7.setOnClickListener {
             val intent = Intent(activity, SeventhAlgorithm::class.java)
