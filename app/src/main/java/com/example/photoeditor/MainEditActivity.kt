@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 
-var imageObjects = EditImages()
+
 
 class MainEditActivity : AppCompatActivity() {
     private lateinit var firstImageUri: Uri
@@ -36,22 +36,22 @@ class MainEditActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        firstImageUri = intent.extras!!.get("uri") as Uri
-        Log.d("uri", firstImageUri.toString())
-        Log.d("uri", firstImageUri.path.toString())
-        imageObjects.addImage()
+        EditImages.deleteAllImageObjects()
 
-        Log.d("log", "${imageObjects.getLastImage()}")
+        firstImageUri = intent.extras!!.get("uri") as Uri
+        EditImages.addImage()
+
+        Log.d("getImage", "${EditImages.getLastImage().filename}")
 
         val bmp = MediaStore.Images.Media.getBitmap(contentResolver, firstImageUri as Uri?)
-        Log.d("log", "${bmp}")
+        binding.image.setImageBitmap(bmp)
 
-        openFileOutput(imageObjects.getLastImage().filename, MODE_PRIVATE).use { stream ->
+        openFileOutput(EditImages.getLastImage().filename, MODE_PRIVATE).use { stream ->
             try {
                 if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
                     throw IOException("Couldn't save bitmap.")
                 } else {
-                    Log.d("dk", "succes")
+                    Log.d("get", "succes")
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
@@ -59,15 +59,17 @@ class MainEditActivity : AppCompatActivity() {
 
         }
 
+
+
     }
 
     override fun onResume() {
         super.onResume()
 
-        val filename = imageObjects.getLastImage().filename
+        val filename = EditImages.getLastImage().filename
         val uri = Uri.parse("$filesDir/$filename")
 
-        binding.image1.setImageURI(uri)
+        //binding.image.setImageURI(uri)
     }
 
     fun buttonSave(view: View) = showPictureDialog()
@@ -88,9 +90,8 @@ class MainEditActivity : AppCompatActivity() {
     }
 
     fun saveAsOriginal() {
-        val bmp = drawableToBitmap(binding.image1.drawable)
+        val bmp = GeneralFunc.drawableToBitmap(binding.image.drawable)
 
-        Log.d("uri", firstImageUri.toString())
         if (firstImageUri.toString().contains("Camera")) {
             Log.d("camera", "camera")
 
@@ -107,17 +108,17 @@ class MainEditActivity : AppCompatActivity() {
                 if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, it)) {
                     throw IOException("Couldn't save bitmap.")
                 } else {
-                    Log.d("dk", "succes")
+                    Log.d("get", "succes")
                 }
             }
         } else {
-            val path = getRealPathFromURI(this, firstImageUri)
-            Log.d("path", path)
+            val path = GeneralFunc.getRealPathFromURI(this, firstImageUri)
+
             FileOutputStream(path).use {
                 if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, it)) {
                     throw IOException("Couldn't save bitmap.")
                 } else {
-                    Log.d("dk", "succes")
+                    Log.d("get", "succes")
                 }
             }
         }
@@ -127,7 +128,7 @@ class MainEditActivity : AppCompatActivity() {
 
     @SuppressLint("SimpleDateFormat")
     fun saveAsCopy() {
-        val bmp = drawableToBitmap(binding.image1.drawable)
+        val bmp = GeneralFunc.drawableToBitmap(binding.image.drawable)
 
 
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
@@ -151,41 +152,7 @@ class MainEditActivity : AppCompatActivity() {
     }
 
 
-    fun drawableToBitmap(drawable: Drawable): Bitmap {
-        val bitmap: Bitmap = if (drawable is BitmapDrawable) {
-            drawable.bitmap
-        } else {
-            val width = drawable.intrinsicWidth
-            val height = drawable.intrinsicHeight
-            Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888).apply {
-                val canvas = Canvas(this)
-                drawable.setBounds(0, 0, canvas.width, canvas.height)
-                drawable.draw(canvas)
-            }
-        }
-        return bitmap
-    }
 
-    fun getRealPathFromURI(context: Context, uri: Uri?): String {
-        var filePath = ""
-        val wholeID = DocumentsContract.getDocumentId(uri)
 
-        // Split at colon, use second item in the array
-        val id = wholeID.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1]
-        val column = arrayOf(MediaStore.Images.Media.DATA)
-
-        // where id is equal to
-        val sel = MediaStore.Images.Media._ID + "=?"
-        val cursor: Cursor? = context.getContentResolver().query(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            column, sel, arrayOf(id), null
-        )
-        val columnIndex = cursor?.getColumnIndex(column[0])
-        if (cursor?.moveToFirst() == true) {
-            filePath = cursor.getString(columnIndex!!)
-        }
-        cursor?.close()
-        return filePath
-    }
 
 }

@@ -31,6 +31,13 @@ class FilterList : BottomSheetDialogFragment() {
         }
 
 
+
+
+
+        view.findViewById<ImageView>(R.id.filter4).setOnClickListener {
+            startActivity(Intent(activity, FourthAlgorithm::class.java))
+            dismiss()
+        }
     }
 
 

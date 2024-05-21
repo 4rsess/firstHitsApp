@@ -9,7 +9,7 @@ cmake_minimum_required(VERSION 3.22.1)
 # Since this is the top level CMakeLists.txt, the project name is also accessible
 # with ${CMAKE_PROJECT_NAME} (both CMake variables are in-sync within the top level
 # build script scope).
-project("myapplication111")
+project("photoeditor")
 
 include_directories(${OpenCV_DIR}/jni/include)
 add_library( lib_opencv SHARED IMPORTED )

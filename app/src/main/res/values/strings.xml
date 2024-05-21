@@ -16,5 +16,6 @@
     <string name="open_gallery">Tap button for open Gallery</string>
     <string name="open_camera">Tap button for open Camera</string>
     <string name="account">///</string>
+    <string name="name_find_faces">find faces</string>
 
 </resources>

@@ -37,6 +37,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_scale_algorithm" />
 
+    <ImageView
+        android:id="@+id/filter4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toEndOf="@+id/filter2"
+        app:layout_constraintTop_toBottomOf="@+id/nameFilter3"
+        app:srcCompat="@drawable/ic_find_faces_algorithm" />
+
     <TextView
         android:id="@+id/nameFilter1"
         android:layout_width="40dp"
@@ -75,6 +85,19 @@
         app:layout_constraintEnd_toEndOf="@+id/filter3"
         app:layout_constraintStart_toStartOf="@+id/filter3"
         app:layout_constraintTop_toBottomOf="@+id/filter3" />
+
+    <TextView
+        android:id="@+id/nameFilter4"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:gravity="center"
+        android:text="@string/name_find_faces"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/filter4"
+        app:layout_constraintStart_toStartOf="@+id/filter4"
+        app:layout_constraintTop_toBottomOf="@+id/filter4" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

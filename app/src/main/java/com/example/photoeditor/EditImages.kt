@@ -1,10 +1,5 @@
 package com.example.photoeditor
 
-import android.content.Context
-import android.content.ContextWrapper
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 import java.util.*
 
 
@@ -26,21 +21,23 @@ class EditImage {
 
 }
 
-class EditImages() {
+abstract class EditImages {
+    companion object{
+        var imageObjects: ArrayList<EditImage> = arrayListOf()
 
-    var imagesObjects: ArrayList<EditImage> = arrayListOf()
+        fun deleteAllImageObjects(){
+            imageObjects.clear()
+        }
+        fun addImage() {
+            imageObjects.add(EditImage(imageObjects.size))
+        }
 
-    fun addImage() {
-        imagesObjects.add(EditImage(imagesObjects.size))
+        fun addImage(whatEdit: String) {
+            imageObjects.add(EditImage(imageObjects.size, whatEdit))
+        }
+
+        fun getLastImage(): EditImage {
+            return imageObjects[imageObjects.size - 1]
+        }
     }
-
-    fun addImage(whatEdit: String) {
-        imagesObjects.add(EditImage(imagesObjects.size, whatEdit))
-    }
-
-    fun getLastImage(): EditImage {
-        return imagesObjects[imagesObjects.size - 1]
-    }
-
-
 }

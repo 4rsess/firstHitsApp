@@ -7,7 +7,7 @@
     android:background="@color/main_bg_color">
 
     <View
-        android:id="@+id/topBarFilter1"
+        android:id="@+id/topBarFilter4"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,7 +22,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topBarFilter1"
+        app:layout_constraintTop_toBottomOf="@+id/topBarFilter4"
         app:layout_constraintVertical_bias="0.15">
 
     </ImageView>
@@ -57,7 +57,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_turn_algorithm" />
+            app:srcCompat="@drawable/ic_find_faces_algorithm" />
 
         <ImageView
             android:id="@+id/buttonExitFromFilter"
@@ -72,4 +72,5 @@
             app:srcCompat="@drawable/ic_x" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

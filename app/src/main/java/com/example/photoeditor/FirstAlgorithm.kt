@@ -24,30 +24,13 @@ class FirstAlgorithm : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        val filename = imageObjects.getLastImage().filename
+        val filename = EditImages.getLastImage().filename
         val uri = Uri.parse("$filesDir/$filename")
-
-        Log.d("log", uri.toString())
         binding.image.setImageURI(uri)
 
 
     }
 
-    //конвертация drawable в bitmap
-    private fun drawableToBitmap(drawable: Drawable): Bitmap {
-        val bitmap: Bitmap = if (drawable is BitmapDrawable) {
-            drawable.bitmap
-        } else {
-            val width = drawable.intrinsicWidth
-            val height = drawable.intrinsicHeight
-            Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888).apply {
-                val canvas = Canvas(this)
-                drawable.setBounds(0, 0, canvas.width, canvas.height)
-                drawable.draw(canvas)
-            }
-        }
-        return bitmap
-    }
 
     private fun rotateBitmap(source: Bitmap): Bitmap {
         val width = source.width
@@ -61,32 +44,29 @@ class FirstAlgorithm : AppCompatActivity() {
         return rotatedBitmap
     }
 
-    fun save(view: View) {
-        val bmp: Bitmap = drawableToBitmap(binding.image.drawable)
-        imageObjects.addImage("turn")
-        Log.d("log", "${imageObjects.imagesObjects.size} ${imageObjects.imagesObjects[0].filename} ${imageObjects.imagesObjects[1].filename}")
 
-        openFileOutput(imageObjects.getLastImage().filename, MODE_PRIVATE).use {
+
+    //получаем изображение, поворачиваем и устанавливаем обратно в Image
+    fun buttonReverse(view: View) {
+        val rotatedBitmap = rotateBitmap(GeneralFunc.drawableToBitmap(binding.image.drawable))
+
+        binding.image.setImageBitmap(rotatedBitmap)
+    }
+
+    fun save(view: View) {
+        val bmp: Bitmap = GeneralFunc.drawableToBitmap(binding.image.drawable)
+        EditImages.addImage(EditTags.turn)
+
+        openFileOutput(EditImages.getLastImage().filename, MODE_PRIVATE).use {
             if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, it)) {
                 throw IOException("Couldn't save bitmap.")
             } else {
-                Log.d("dk", "succes")
+                Log.d("save", "succes")
             }
         }
 
         finish()
     }
-
-    //получаем изображение, поворачиваем и устанавливаем обратно в Image
-    fun buttonReverse(view: View) {
-        val drawable = binding.image.drawable
-        val bitmap = drawableToBitmap(drawable)
-
-        val rotatedBitmap = rotateBitmap(bitmap)
-
-        binding.image.setImageBitmap(rotatedBitmap)
-    }
-
     fun exit(view: View) {
         onBackPressed()
     }

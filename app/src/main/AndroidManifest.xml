@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -36,7 +35,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PhotoEditor"
         tools:targetApi="tiramisu">
-
+        <activity
+            android:name=".FourthAlgorithm"
+            android:exported="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -47,6 +48,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
         <activity
             android:name=".MainEditActivity"
             android:screenOrientation="portrait" />
@@ -60,7 +62,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".FilterList"
             android:screenOrientation="portrait" />
