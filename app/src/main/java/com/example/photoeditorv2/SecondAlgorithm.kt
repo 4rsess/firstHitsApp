@@ -13,50 +13,46 @@ import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
 import android.graphics.Color
+import kotlinx.coroutines.*
 
-
-class SecondAlgorithm : AppCompatActivity(){
-
+class SecondAlgorithm : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_page_for_secondalgorithm)
 
-        //копирование картинки
         val app = application as StorageUriImage
         val uri = app.selectedImageUri
-        if (uri != null) {
 
+        if (uri != null) {
             val imageView = findViewById<ImageView>(R.id.CopyImageInputFilter2)
             imageView.setImageURI(uri)
         }
 
         val imageView = findViewById<ImageView>(R.id.CopyImageInputFilter2)
 
-        val negativeButton = findViewById<ImageView>(R.id.negative)
-        negativeButton.setOnClickListener {
-            val drawable = imageView.drawable
-            val bitmap = drawableToBitmap(drawable)
-
-            val negativedBitmap = negativeBitmap(bitmap)
-
-            imageView.setImageBitmap(negativedBitmap)
+        findViewById<ImageView>(R.id.negative).setOnClickListener {
+            applyFilter(imageView, ::negativeFilter)
         }
 
-        val redButton = findViewById<ImageView>(R.id.red)
-        redButton.setOnClickListener {
-            val drawable = imageView.drawable
-            val bitmap = drawableToBitmap(drawable)
-
-            val rededBitmap = redBitmap(bitmap)
-
-            imageView.setImageBitmap(rededBitmap)
+        findViewById<ImageView>(R.id.red).setOnClickListener {
+            applyFilter(imageView, ::redFilter)
         }
 
-        val backToHome = findViewById<TextView>(R.id.back)
-        backToHome.setOnClickListener {
-            val intent = Intent(this, InstrumentsActivity::class.java)
-            startActivity(intent)
+        findViewById<ImageView>(R.id.green).setOnClickListener {
+            applyFilter(imageView, ::greenFilter)
+        }
+
+        findViewById<ImageView>(R.id.blue).setOnClickListener {
+            applyFilter(imageView, ::blueFilter)
+        }
+
+        findViewById<ImageView>(R.id.black_and_white).setOnClickListener {
+            applyFilter(imageView, ::blackAndWhiteFilter)
+        }
+
+        findViewById<TextView>(R.id.back).setOnClickListener {
+            startActivity(Intent(this, InstrumentsActivity::class.java))
         }
     }
 
@@ -64,9 +60,7 @@ class SecondAlgorithm : AppCompatActivity(){
         val bitmap: Bitmap = if (drawable is BitmapDrawable) {
             drawable.bitmap
         } else {
-            val width = drawable.intrinsicWidth
-            val height = drawable.intrinsicHeight
-            Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888).apply {
+            Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888).apply {
                 val canvas = Canvas(this)
                 drawable.setBounds(0, 0, canvas.width, canvas.height)
                 drawable.draw(canvas)
@@ -75,27 +69,101 @@ class SecondAlgorithm : AppCompatActivity(){
         return bitmap
     }
 
-    private fun negativeBitmap(source: Bitmap): Bitmap {
+    private suspend fun negativeFilter(source: Bitmap): Bitmap = withContext(Dispatchers.Default) {
         val width = source.width
         val height = source.height
-        val negativedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        for (x in 0 until width) {
-            for (y in 0 until height) {
-                negativedBitmap.setPixel(x, y, Color.rgb(255 - source.getPixel(x, y).red, 255 - source.getPixel(x, y).green, 255 - source.getPixel(x, y).blue))
-            }
+        val pixels = IntArray(width * height)
+        source.getPixels(pixels, 0, width, 0, 0, width, height)
+
+        for (i in pixels.indices) {
+            val color = pixels[i]
+            val r = 255 - Color.red(color)
+            val g = 255 - Color.green(color)
+            val b = 255 - Color.blue(color)
+            pixels[i] = Color.rgb(r, g, b)
         }
-        return negativedBitmap
+
+        val newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        newBitmap.setPixels(pixels, 0, width, 0, 0, width, height)
+        newBitmap
     }
 
-    private fun redBitmap(source: Bitmap): Bitmap {
+    private suspend fun redFilter(source: Bitmap): Bitmap = withContext(Dispatchers.Default) {
         val width = source.width
         val height = source.height
-        val rededBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        for (x in 0 until width) {
-            for (y in 0 until height) {
-                rededBitmap.setPixel(x, y, Color.rgb(source.getPixel(x, y).red, 0, 0))
+        val pixels = IntArray(width * height)
+        source.getPixels(pixels, 0, width, 0, 0, width, height)
+
+        for (i in pixels.indices) {
+            val color = pixels[i]
+            val r = Color.red(color)
+            pixels[i] = Color.rgb(r, 0, 0)
+        }
+
+        val newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        newBitmap.setPixels(pixels, 0, width, 0, 0, width, height)
+        newBitmap
+    }
+
+    private suspend fun greenFilter(source: Bitmap): Bitmap = withContext(Dispatchers.Default) {
+        val width = source.width
+        val height = source.height
+        val pixels = IntArray(width * height)
+        source.getPixels(pixels, 0, width, 0, 0, width, height)
+
+        for (i in pixels.indices) {
+            val color = pixels[i]
+            val g = Color.green(color)
+            pixels[i] = Color.rgb(0, g, 0)
+        }
+
+        val newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        newBitmap.setPixels(pixels, 0, width, 0, 0, width, height)
+        newBitmap
+    }
+
+    private suspend fun blueFilter(source: Bitmap): Bitmap = withContext(Dispatchers.Default) {
+        val width = source.width
+        val height = source.height
+        val pixels = IntArray(width * height)
+        source.getPixels(pixels, 0, width, 0, 0, width, height)
+
+        for (i in pixels.indices) {
+            val color = pixels[i]
+            val b = Color.blue(color)
+            pixels[i] = Color.rgb(0, 0, b)
+        }
+
+        val newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        newBitmap.setPixels(pixels, 0, width, 0, 0, width, height)
+        newBitmap
+    }
+
+    private suspend fun blackAndWhiteFilter(source: Bitmap): Bitmap = withContext(Dispatchers.Default) {
+        val width = source.width
+        val height = source.height
+        val pixels = IntArray(width * height)
+        source.getPixels(pixels, 0, width, 0, 0, width, height)
+
+        for (i in pixels.indices) {
+            val color = pixels[i]
+            val bw = (Color.red(color) + Color.green(color) + Color.blue(color)) / 3
+            pixels[i] = Color.rgb(bw, bw, bw)
+        }
+
+        val newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        newBitmap.setPixels(pixels, 0, width, 0, 0, width, height)
+        newBitmap
+    }
+
+    private fun applyFilter(imageView: ImageView, filterFunction: suspend (Bitmap) -> Bitmap) {
+        val drawable = imageView.drawable
+        if (drawable != null) {
+            val sourceBitmap = drawableToBitmap(drawable)
+            CoroutineScope(Dispatchers.Main).launch {
+                val filteredBitmap = filterFunction(sourceBitmap)
+                imageView.setImageBitmap(filteredBitmap)
             }
         }
-        return rededBitmap
     }
 }
