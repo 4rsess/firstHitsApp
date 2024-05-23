@@ -2,7 +2,7 @@
     <string name="app_name">Photo editor v2</string>
     <string name="main_photo">Main Photo</string>
     <string name="open_image_button">OPEN</string>
-    <string name="open_image">tap everywhere to select image</string>
+    <string name="open_image">The photo has not been selected yet, take a picture or select from the gallery</string>
     <string name="button_next">NEXT</string>
     <string name="back_to_first_page">HOME</string>
     <string name="back">BACK</string>

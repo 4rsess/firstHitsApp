@@ -17,14 +17,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"/>
 
-    <View
-        android:id="@+id/allScreen"
-        android:layout_width="match_parent"
-        android:layout_height="@+id/topBar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topBar" />
 
     <TextView
         android:id="@+id/imageButtonView"
@@ -55,40 +47,67 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.888" />
 
-    <ImageView
-        android:id="@+id/imageChoose"
-        android:layout_width="192dp"
-        android:layout_height="192dp"
-        android:layout_marginTop="216dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topBar"
-        app:srcCompat="@drawable/ic_add_photo" />
 
     <TextView
-        android:id="@+id/taphere"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:id="@+id/infoText"
+        android:layout_width="350dp"
+        android:layout_height="94dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="7dp"
         android:fontFamily="@font/montserrat_bold"
         android:text="@string/open_image"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageChoose" />
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="@+id/MainImageInput"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/MainImageInput"
+        app:layout_constraintTop_toBottomOf="@+id/waitPhoto" />
+
+    <ImageView
+        android:id="@+id/waitPhoto"
+        android:layout_width="281dp"
+        android:layout_height="281dp"
+        app:layout_constraintBottom_toBottomOf="@+id/MainImageInput"
+        app:layout_constraintEnd_toEndOf="@+id/MainImageInput"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/MainImageInput"
+        app:layout_constraintTop_toTopOf="@+id/MainImageInput"
+        app:layout_constraintVertical_bias="0.24"
+        app:srcCompat="@drawable/ic_waitphoto" />
 
     <ImageView
         android:id="@+id/MainImageInput"
         android:layout_width="380dp"
-        android:layout_height="620dp"
+        android:layout_height="610dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topBar"
-        app:layout_constraintVertical_bias="0.16">
+        app:layout_constraintVertical_bias="0.16" />
 
-    </ImageView>
+    <ImageView
+        android:id="@+id/tapGallery"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="136dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_gallery" />
+
+    <ImageView
+        android:id="@+id/tapCamera"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_cameraa" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

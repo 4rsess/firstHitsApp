@@ -17,8 +17,11 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var MainImageInput: ImageView
     private lateinit var buttonNext: TextView
-    private lateinit var imageChoose: TextView
-    private lateinit var imageChoose2: View
+    private lateinit var imageChooseOpen: TextView
+    private lateinit var imageChooseFromGallery: ImageView
+    private lateinit var imageChooseFromCamera: ImageView
+    private lateinit var icWaitPhoto: ImageView
+    private lateinit var infoText: TextView
     private var uri: Uri? = null
 
 
@@ -35,9 +38,11 @@ class MainActivity : AppCompatActivity() {
 
         MainImageInput = findViewById(R.id.MainImageInput)
         buttonNext = findViewById(R.id.buttonNext)
-        imageChoose = findViewById(R.id.imageButtonView)
-        imageChoose2 = findViewById(R.id.allScreen)
-
+        imageChooseOpen = findViewById(R.id.imageButtonView)
+        imageChooseFromGallery = findViewById(R.id.tapGallery)
+        imageChooseFromCamera = findViewById(R.id.tapCamera)
+        icWaitPhoto = findViewById(R.id.waitPhoto)
+        infoText = findViewById(R.id.infoText)
 
         buttonNext.setOnClickListener{
             try {
@@ -55,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        imageChoose.setOnClickListener {
+        imageChooseOpen.setOnClickListener {
             try {
                 val intent = Intent(Intent.ACTION_GET_CONTENT)
                 intent.type = "image/*"
@@ -66,7 +71,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        imageChoose2.setOnClickListener {
+        imageChooseFromGallery.setOnClickListener {
             try {
                 val intent = Intent(Intent.ACTION_GET_CONTENT)
                 intent.type = "image/*"
@@ -76,6 +81,11 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Ошибка", Toast.LENGTH_SHORT).show()
             }
         }
+
+        imageChooseFromCamera.setOnClickListener {
+            //реализация камеры
+        }
+
     }
 
 
@@ -86,6 +96,11 @@ class MainActivity : AppCompatActivity() {
             if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
                 uri = data.data
                 MainImageInput.setImageURI(uri)
+                imageChooseFromGallery.visibility = View.GONE
+                imageChooseFromCamera.visibility = View.GONE
+                icWaitPhoto.visibility = View.GONE
+                infoText.visibility = View.GONE
+
             } else {
                 Toast.makeText(this, "Ошибка", Toast.LENGTH_SHORT).show()
             }

@@ -75,6 +75,12 @@ class FifthAlgorithm : AppCompatActivity() {
             drawPoints(canvas)
         }
 
+        private fun drawPoints(canvas: Canvas) {
+            for (point in points) {
+                canvas.drawCircle(point.first, point.second, 17.5f, pointPaint)
+            }
+        }
+
         private fun drawLines(canvas: Canvas) {
             if (points.size < 2) return
             val path = Path()
@@ -121,12 +127,6 @@ class FifthAlgorithm : AppCompatActivity() {
             }
 
             canvas.drawPath(path, linePaint)
-        }
-
-        private fun drawPoints(canvas: Canvas) {
-            for (point in points) {
-                canvas.drawCircle(point.first, point.second, 17.5f, pointPaint)
-            }
         }
 
         override fun onTouchEvent(event: MotionEvent): Boolean {
