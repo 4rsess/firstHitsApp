@@ -43,21 +43,10 @@
             android:onClick="save"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.6"
-            app:layout_constraintStart_toEndOf="@+id/buttonFindFaces"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_tikk" />
-
-        <ImageView
-            android:id="@+id/buttonFindFaces"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="buttonReverse"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.8"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_find_faces_algorithm" />
+            app:srcCompat="@drawable/ic_tikk" />
 
         <ImageView
             android:id="@+id/buttonExitFromFilter"
@@ -65,8 +54,8 @@
             android:layout_height="wrap_content"
             android:onClick="exit"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/buttonFindFaces"
-            app:layout_constraintHorizontal_bias="0.40"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_x" />

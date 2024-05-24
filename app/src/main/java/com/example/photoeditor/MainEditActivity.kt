@@ -67,9 +67,10 @@ class MainEditActivity : AppCompatActivity() {
         super.onResume()
 
         val filename = EditImages.getLastImage().filename
+        Log.d("getFilename", filename)
         val uri = Uri.parse("$filesDir/$filename")
 
-        //binding.image.setImageURI(uri)
+        binding.image.setImageURI(uri)
     }
 
     fun buttonSave(view: View) = showPictureDialog()
