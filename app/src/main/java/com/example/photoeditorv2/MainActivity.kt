@@ -1,21 +1,28 @@
 package com.example.photoeditorv2
 
-import android.app.Activity
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var MainImageInput: ImageView
+    private lateinit var mainImageInput: ImageView
     private lateinit var buttonNext: TextView
     private lateinit var imageChooseOpen: TextView
     private lateinit var imageChooseFromGallery: ImageView
@@ -24,19 +31,35 @@ class MainActivity : AppCompatActivity() {
     private lateinit var infoText: TextView
     private var uri: Uri? = null
 
+    private val cameraImage = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+        if (success) {
+            mainImageInput.setImageURI(uri)
+            hideViews()
+        } else {
+            Toast.makeText(this, "Ошибка, изображение не выбрано", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private val galleryImage = registerForActivityResult(ActivityResultContracts.GetContent()) { resultUri ->
+        resultUri?.let {
+            uri = it
+            mainImageInput.setImageURI(uri)
+            hideViews()
+        } ?: run {
+            Toast.makeText(this, "Ошибка, изображение не выбрано", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
-
         }
 
-        MainImageInput = findViewById(R.id.MainImageInput)
+        mainImageInput = findViewById(R.id.MainImageInput)
         buttonNext = findViewById(R.id.buttonNext)
         imageChooseOpen = findViewById(R.id.imageButtonView)
         imageChooseFromGallery = findViewById(R.id.tapGallery)
@@ -44,7 +67,9 @@ class MainActivity : AppCompatActivity() {
         icWaitPhoto = findViewById(R.id.waitPhoto)
         infoText = findViewById(R.id.infoText)
 
-        buttonNext.setOnClickListener{
+        checkPermissions()
+
+        buttonNext.setOnClickListener {
             try {
                 if (uri != null) {
                     val app = application as StorageUriImage
@@ -61,53 +86,60 @@ class MainActivity : AppCompatActivity() {
         }
 
         imageChooseOpen.setOnClickListener {
-            try {
-                val intent = Intent(Intent.ACTION_GET_CONTENT)
-                intent.type = "image/*"
-                startActivityForResult(intent, 1)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Toast.makeText(this, "Ошибка", Toast.LENGTH_SHORT).show()
-            }
+            galleryImage.launch("image/*")
         }
 
         imageChooseFromGallery.setOnClickListener {
-            try {
-                val intent = Intent(Intent.ACTION_GET_CONTENT)
-                intent.type = "image/*"
-                startActivityForResult(intent, 1)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Toast.makeText(this, "Ошибка", Toast.LENGTH_SHORT).show()
-            }
+            galleryImage.launch("image/*")
         }
 
         imageChooseFromCamera.setOnClickListener {
-            //реализация камеры
+            uri = createImageUriForCamera()
+            cameraImage.launch(uri)
+        }
+    }
+    private fun createImageUriForCamera(): Uri {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val storageDir: File? = getExternalFilesDir(null)
+        val imageFile = File.createTempFile(
+            "JPEG_${timeStamp}_",
+            ".jpg",
+            storageDir
+        )
+        return FileProvider.getUriForFile(
+            this,
+            "com.example.photoeditorv2.fileprovider",
+            imageFile
+        )
+    }
+    private fun hideViews() {
+        imageChooseFromGallery.visibility = View.GONE
+        imageChooseFromCamera.visibility = View.GONE
+        icWaitPhoto.visibility = View.GONE
+        infoText.visibility = View.GONE
+    }
+    private fun checkPermissions() {
+        val permissions = arrayOf(
+            Manifest.permission.CAMERA,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+
+        val permissionsToRequest = permissions.filter {
+            ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
         }
 
+        if (permissionsToRequest.isNotEmpty()) {
+            ActivityCompat.requestPermissions(this, permissionsToRequest.toTypedArray(), 0)
+        }
     }
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        try {
-            if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
-                uri = data.data
-                MainImageInput.setImageURI(uri)
-                imageChooseFromGallery.visibility = View.GONE
-                imageChooseFromCamera.visibility = View.GONE
-                icWaitPhoto.visibility = View.GONE
-                infoText.visibility = View.GONE
-
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 0) {
+            if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                Toast.makeText(this, "Разрешения предоставлены", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "Ошибка", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Необходимо разрешение для работы с камерой", Toast.LENGTH_SHORT).show()
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Toast.makeText(this, "Ошибка", Toast.LENGTH_SHORT).show()
         }
     }
 }
-
