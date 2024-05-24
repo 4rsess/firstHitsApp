@@ -21,4 +21,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "Photo editor v2"
 include(":app")
- 
+
+include (":opencv")
+
+val opencvsdk:String by settings
+project(":opencv").projectDir = File(opencvsdk + "/sdk")
