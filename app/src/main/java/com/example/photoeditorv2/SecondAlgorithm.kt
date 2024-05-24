@@ -1,5 +1,6 @@
 package com.example.photoeditorv2
 
+import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -10,12 +11,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import android.graphics.Color
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
+import java.io.IOException
 
 data class Filter(val name: String, val filterFunction: suspend (Bitmap) -> Bitmap)
 
@@ -110,6 +114,38 @@ class SecondAlgorithm : AppCompatActivity() {
 
         findViewById<TextView>(R.id.back).setOnClickListener {
             startActivity(Intent(this, InstrumentsActivity::class.java))
+        }
+
+        val saveButton = findViewById<ImageView>(R.id.battonSaveFromFilter2)
+        saveButton.setOnClickListener {
+            val imageView = findViewById<ImageView>(R.id.CopyImageInputFilter2)
+            val drawable = imageView.drawable
+            if (drawable is BitmapDrawable) {
+                saveImageToGallery(drawable.bitmap)
+            }
+        }
+    }
+
+    private fun saveImageToGallery(bitmap: Bitmap) {
+        val resolver = applicationContext.contentResolver
+        val contentValues = ContentValues().apply {
+            put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+        }
+
+        val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+
+        uri?.let { imageUri ->
+            try {
+                resolver.openOutputStream(imageUri)?.use { outputStream ->
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                    outputStream.flush()
+                }
+
+                Toast.makeText(this, "Изображение сохранено!", Toast.LENGTH_SHORT).show()
+            } catch (e: IOException) {
+                e.printStackTrace()
+                Toast.makeText(this, "Ошибка", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
