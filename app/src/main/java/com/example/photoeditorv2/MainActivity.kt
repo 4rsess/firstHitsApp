@@ -141,8 +141,6 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == 0) {
             if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
                 Toast.makeText(this, "Разрешения предоставлены", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Необходимо разрешение для работы с камерой", Toast.LENGTH_SHORT).show()
             }
         }
     }

@@ -39,7 +39,6 @@ class FifthAlgorithm : AppCompatActivity() {
             drawingView.invalidate()
         }
 
-        //удаление ломаных и отрисоввка сплайнов
         val transformationBtn = findViewById<TextView>(R.id.transformationBtn)
         transformationBtn.setOnClickListener {
             isTransformed = !isTransformed
@@ -98,34 +97,42 @@ class FifthAlgorithm : AppCompatActivity() {
             val path = Path()
             path.moveTo(points[0].first, points[0].second)
 
-            //берем текущ и след точки и строим кубические сплайны
+
             for (i in 0 until points.size - 1) {
+                //кординаты предыдущей точки или текущ точки, если это первая
                 val x0 = if (i > 0) points[i - 1].first else points[i].first
                 val y0 = if (i > 0) points[i - 1].second else points[i].second
+                //координаты текущ точки
                 val x1 = points[i].first
                 val y1 = points[i].second
+                //оординаты след точки
                 val x2 = points[i + 1].first
                 val y2 = points[i + 1].second
+                //координаты через одну точку или след точки, если это была последней
                 val x3 = if (i < points.size - 2) points[i + 2].first else points[i + 1].first
                 val y3 = if (i < points.size - 2) points[i + 2].second else points[i + 1].second
 
-                //коэффииценты сплайна
-                val cx = 3 * (x1 - x0)
-                val bx = 3 * (x2 - x1) - cx
-                val ax = x3 - x0 - cx - bx
-                val cy = 3 * (y1 - y0)
-                val by = 3 * (y2 - y1) - cy
-                val ay = y3 - y0 - cy - by
 
-                //отрисовка м разбиение на 20 частей
+                val cx = 3 * (x1 - x0) //t
+                val bx = 3 * (x2 - x1) - cx //t^2
+                val ax = x3 - x0 - cx - bx //t^3
+
+                val cy = 3 * (y1 - y0) //t
+                val by = 3 * (y2 - y1) - cy //t^2
+                val ay = y3 - y0 - cy - by //t^3
+
+                //разбиваем сегмент на 20 частей и вычисляем координаты для каждой части
                 for (t in 0..20) {
-                    val tNormalized = t / 20f
+                    val tNormalized = t / 20f //нормализуем t 0-1
+
+                    //вычисляем координаты и добавляем в путь
                     val x = ax * tNormalized * tNormalized * tNormalized + bx * tNormalized * tNormalized + cx * tNormalized + x0
                     val y = ay * tNormalized * tNormalized * tNormalized + by * tNormalized * tNormalized + cy * tNormalized + y0
                     path.lineTo(x, y)
                 }
             }
 
+            //рисуем путь
             canvas.drawPath(path, linePaint)
         }
 

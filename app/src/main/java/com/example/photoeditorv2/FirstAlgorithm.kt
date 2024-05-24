@@ -107,6 +107,9 @@ class FirstAlgorithm : AppCompatActivity(){
             val width = bitmap.width
             val height = bitmap.height
 
+            val cx = width / 2f
+            val cy = height / 2f
+
             val radians = Math.toRadians(degrees.toDouble())
             val sin = Math.sin(radians)
             val cos = Math.cos(radians)
@@ -115,9 +118,6 @@ class FirstAlgorithm : AppCompatActivity(){
             val newHeight = (width * Math.abs(sin) + height * Math.abs(cos)).toInt()
 
             val rotatedBitmap = Bitmap.createBitmap(newWidth, newHeight, bitmap.config)
-
-            val cx = width / 2f
-            val cy = height / 2f
 
             val newCx = newWidth / 2f
             val newCy = newHeight / 2f
