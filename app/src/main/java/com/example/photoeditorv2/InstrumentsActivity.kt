@@ -29,6 +29,12 @@ class InstrumentsActivity : AppCompatActivity() {
             bottomSheetDialog.show(supportFragmentManager, bottomSheetDialog.tag)
         }
 
+        val styleBtn = findViewById<TextView>(R.id.battonStyle)
+        styleBtn.setOnClickListener {
+            val intent = Intent(this, SecondAlgorithm::class.java)
+            startActivity(intent)
+        }
+
         val backToHome = findViewById<TextView>(R.id.backToFirstPage)
         backToHome.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)

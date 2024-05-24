@@ -26,81 +26,75 @@
 
         <ImageView
             android:id="@+id/filter1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="34dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="40dp"
             android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/icon_turn_algorithm" />
 
-        <ImageView
-            android:id="@+id/filter2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="34dp"
-            android:layout_marginTop="12dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nameFilter1"
-            app:srcCompat="@drawable/icon_colorcorrection_algorithm" />
 
         <ImageView
             android:id="@+id/filter3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="46dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="64dp"
             android:layout_marginTop="12dp"
+            app:layout_constraintEnd_toStartOf="@+id/filter5"
+            app:layout_constraintHorizontal_bias="0.112"
             app:layout_constraintStart_toEndOf="@+id/filter1"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_scaling_algorithm" />
 
         <ImageView
             android:id="@+id/filter4"
-            android:layout_width="62dp"
-            android:layout_height="62dp"
-            android:layout_marginStart="39dp"
-            android:layout_marginTop="2dp"
-            app:layout_constraintStart_toEndOf="@+id/filter2"
-            app:layout_constraintTop_toBottomOf="@+id/nameFilter3"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="97dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_facerecognition_algorithm" />
 
         <ImageView
             android:id="@+id/filter5"
-            android:layout_width="49dp"
-            android:layout_height="49dp"
-            android:layout_marginStart="46dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_marginTop="12dp"
-            app:layout_constraintStart_toEndOf="@+id/filter3"
+            android:layout_marginEnd="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_splines_algorithm" />
 
         <ImageView
             android:id="@+id/filter6"
-            android:layout_width="52dp"
-            android:layout_height="52dp"
-            android:layout_marginStart="38dp"
-            android:layout_marginTop="7dp"
+            android:layout_width="57dp"
+            android:layout_height="57dp"
+            android:layout_marginStart="57dp"
+            android:layout_marginTop="104dp"
+            app:layout_constraintEnd_toStartOf="@+id/filter7"
+            app:layout_constraintHorizontal_bias="0.063"
             app:layout_constraintStart_toEndOf="@+id/filter4"
-            app:layout_constraintTop_toBottomOf="@+id/nameFilter5"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_retouching_algorithm" />
 
         <ImageView
             android:id="@+id/filter7"
-            android:layout_width="49dp"
-            android:layout_height="49dp"
-            android:layout_marginStart="52dp"
-            android:layout_marginTop="12dp"
-            app:layout_constraintStart_toEndOf="@+id/filter5"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:layout_marginTop="104dp"
+            android:layout_marginEnd="43dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_increaseclarity_algorithm" />
-
 
         <TextView
             android:id="@+id/nameFilter1"
             android:layout_width="40dp"
             android:layout_height="20dp"
-            android:layout_marginStart="38dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="47dp"
+            android:layout_marginTop="4dp"
             android:fontFamily="@font/montserrat_medium"
             android:gravity="center"
             android:text="@string/name_turn_algorithm"
@@ -109,23 +103,10 @@
             app:layout_constraintTop_toBottomOf="@+id/filter1" />
 
         <TextView
-            android:id="@+id/nameFilter2"
-            android:layout_width="85dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:gravity="center"
-            android:text="@string/name_color_correction_algorithm"
-            android:textSize="13sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/filter2" />
-
-        <TextView
             android:id="@+id/nameFilter3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="47dp"
+            android:layout_marginStart="81dp"
             android:layout_marginTop="4dp"
             android:fontFamily="@font/montserrat_medium"
             android:gravity="center"
@@ -138,41 +119,40 @@
             android:id="@+id/nameFilter4"
             android:layout_width="85dp"
             android:layout_height="40dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="19dp"
+            android:layout_marginStart="23dp"
+            android:layout_marginBottom="9dp"
             android:fontFamily="@font/montserrat_medium"
             android:gravity="center"
             android:text="@string/name_facerecognition_algorithm"
             android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/nameFilter2" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/nameFilter5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="38dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="122dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="47dp"
             android:fontFamily="@font/montserrat_medium"
             android:gravity="center"
             android:text="@string/name_splines_algorithm"
             android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/nameFilter3"
-            app:layout_constraintTop_toBottomOf="@+id/filter5"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/filter5" />
 
         <TextView
             android:id="@+id/nameFilter6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="2dp"
             android:fontFamily="@font/montserrat_medium"
             android:gravity="center"
             android:text="@string/name_retouching_algorithm"
             android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/nameFilter7"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/nameFilter4"
             app:layout_constraintTop_toBottomOf="@+id/filter6" />
 
@@ -180,16 +160,13 @@
             android:id="@+id/nameFilter7"
             android:layout_width="85dp"
             android:layout_height="38dp"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="3dp"
+            android:layout_marginEnd="30dp"
             android:fontFamily="@font/montserrat_medium"
             android:gravity="center"
             android:text="@string/name_blurredmasking_algorithm"
-            android:textSize="15sp"
-            app:layout_constraintStart_toEndOf="@+id/nameFilter5"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/filter7" />
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
