@@ -37,27 +37,71 @@
         app:layout_constraintTop_toBottomOf="@id/topBarFilter7"
         app:layout_constraintVertical_bias="0.15" />
 
-    <SeekBar
-        android:id="@+id/radiusSeekBar"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/radiusSeekBarTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:max="50"
+        android:text="@string/radius_bar_text"
         app:layout_constraintBottom_toTopOf="@+id/multiplierSeekBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/CopyImageInputFilter7"
-        app:layout_constraintVertical_bias="0.739" />
+        app:layout_constraintEnd_toStartOf="@+id/multiplierSeekBar"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <SeekBar
-        android:id="@+id/multiplierSeekBar"
-        android:layout_width="0dp"
+        android:id="@+id/radiusSeekBar"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:max="10"
+        android:min="1"
+        android:progress="5"
+        app:layout_constraintBottom_toTopOf="@+id/multiplierSeekBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.855"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/CopyImageInputFilter7"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/multiplierSeekBarTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/multiplier_bar_text"
+        app:layout_constraintBottom_toTopOf="@+id/thresholdSeekBar"
+        app:layout_constraintEnd_toStartOf="@+id/multiplierSeekBar"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <SeekBar
+        android:id="@+id/thresholdSeekBar"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
         android:max="200"
+        android:min="50"
+        android:progress="100"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout7"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.855"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/thresholdSeekBarTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:text="@string/threshold_bar_text"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout7"
+        app:layout_constraintEnd_toStartOf="@+id/thresholdSeekBar"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <SeekBar
+        android:id="@+id/multiplierSeekBar"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:max="20"
+        android:min="5"
+        android:progress="10"
+        app:layout_constraintBottom_toTopOf="@+id/thresholdSeekBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.855"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -26,4 +26,7 @@
     <string name="nameSizeBrushSeekBar">Brush size</string>
     <string name="nameRatioSeekBar">Ratio</string>
     <string name="name_retouching_algorithm">Retouching</string>
+    <string name="multiplier_bar_text">multiplier: 1</string>
+    <string name="threshold_bar_text">threshold: 50</string>
+    <string name="radius_bar_text">radius: 5</string>
 </resources>

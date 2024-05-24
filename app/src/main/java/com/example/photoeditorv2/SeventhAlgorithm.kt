@@ -12,11 +12,17 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.io.IOException
 import android.graphics.Color
+import android.widget.SeekBar
 import kotlinx.coroutines.*
 
 class SeventhAlgorithm : AppCompatActivity() {
 
     private lateinit var originalBitmap: Bitmap
+    private lateinit var filteredBitmap: Bitmap
+    private var radius = 5
+    private var multiplier = 1.0
+    private var threshold = 10
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_page_for_seventhalgorithm)
@@ -40,17 +46,47 @@ class SeventhAlgorithm : AppCompatActivity() {
             originalBitmap = drawable.bitmap.copy(Bitmap.Config.ARGB_8888, true)
         }
 
+        findViewById<SeekBar>(R.id.radiusSeekBar).setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                radius = progress
+                findViewById<TextView>(R.id.radiusSeekBarTextView).text = "radius: $radius"
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+        findViewById<SeekBar>(R.id.multiplierSeekBar).setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                multiplier = progress / 10.0
+                findViewById<TextView>(R.id.multiplierSeekBarTextView).text = "multiplier: $multiplier"
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+        findViewById<SeekBar>(R.id.thresholdSeekBar).setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                threshold = progress
+                findViewById<TextView>(R.id.thresholdSeekBarTextView).text = "threshold: $threshold"
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
         findViewById<TextView>(R.id.recognizeBtn).setOnClickListener {
-            applyFilter(imageView, ::unsharpMaskingFilter)
+            applyFilter(imageView)
         }
 
         val saveButton = findViewById<ImageView>(R.id.saveBtn)
         saveButton.setOnClickListener {
-            val imageView = findViewById<ImageView>(R.id.CopyImageInputFilter7)
-            val drawable = imageView.drawable
-            if (drawable is BitmapDrawable) {
-                saveImageToGallery(drawable.bitmap)
-            }
+            saveImage(imageView)
+        }
+    }
+
+    private fun saveImage(imageView: ImageView) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val filteredBitmap = unsharpMaskingFilter(originalBitmap, radius, multiplier, threshold)
+            saveImageToGallery(filteredBitmap)
         }
     }
 
@@ -79,9 +115,9 @@ class SeventhAlgorithm : AppCompatActivity() {
 
     private suspend fun unsharpMaskingFilter(
         source: Bitmap,
-        blurRadius: Int = 2,
-        intensity: Double = 1.5,
-        threshold: Int = 10
+        blurRadius: Int,
+        intensity: Double,
+        threshold: Int
     ): Bitmap = withContext(Dispatchers.Default) {
         val blurredBitmap = blurFilter(source, blurRadius)
 
@@ -180,9 +216,9 @@ class SeventhAlgorithm : AppCompatActivity() {
         newBitmap
     }
 
-    private fun applyFilter(imageView: ImageView, filterFunction: suspend (Bitmap) -> Bitmap) {
+    private fun applyFilter(imageView: ImageView) {
         CoroutineScope(Dispatchers.Main).launch {
-            val filteredBitmap = filterFunction(originalBitmap)
+            filteredBitmap = unsharpMaskingFilter(originalBitmap, radius, multiplier, threshold)
             imageView.setImageBitmap(filteredBitmap)
         }
     }
