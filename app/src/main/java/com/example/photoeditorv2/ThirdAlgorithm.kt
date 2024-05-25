@@ -1,8 +1,8 @@
 package com.example.photoeditorv2
 
 import android.content.ContentValues
-import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.provider.MediaStore
@@ -12,7 +12,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.io.IOException
-import android.graphics.Canvas
 
 class ThirdAlgorithm : AppCompatActivity() {
 
@@ -30,8 +29,7 @@ class ThirdAlgorithm : AppCompatActivity() {
 
         val backToHome = findViewById<TextView>(R.id.back)
         backToHome.setOnClickListener {
-            val intent = Intent(this, InstrumentsActivity::class.java)
-            startActivity(intent)
+            finish()
         }
 
         val imageView = findViewById<ImageView>(R.id.CopyImageInputFilter3)
@@ -102,7 +100,8 @@ class ThirdAlgorithm : AppCompatActivity() {
             Bitmap.createBitmap(scaledBitmap, left, top, originalWidth, originalHeight)
         } else {
             //границы для уменьшенного изображения
-            val paddedBitmap = Bitmap.createBitmap(originalWidth, originalHeight, Bitmap.Config.ARGB_8888)
+            val paddedBitmap =
+                Bitmap.createBitmap(originalWidth, originalHeight, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(paddedBitmap)
             val left = (originalWidth - newWidth) / 2
             val top = (originalHeight - newHeight) / 2

@@ -1,17 +1,16 @@
 package com.example.photoeditorv2
 
-import android.content.Intent
-import android.os.Bundle
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
+import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 
 class FifthAlgorithm : AppCompatActivity() {
 
@@ -28,12 +27,11 @@ class FifthAlgorithm : AppCompatActivity() {
 
         val backToHome = findViewById<TextView>(R.id.back)
         backToHome.setOnClickListener {
-            val intent = Intent(this, InstrumentsActivity::class.java)
-            startActivity(intent)
+            finish()
         }
 
         val clearBtn = findViewById<TextView>(R.id.clearBtn)
-        clearBtn.setOnClickListener{
+        clearBtn.setOnClickListener {
             points.clear()
             isTransformed = false
             drawingView.invalidate()
@@ -126,8 +124,10 @@ class FifthAlgorithm : AppCompatActivity() {
                     val tNormalized = t / 20f //нормализуем t 0-1
 
                     //вычисляем координаты и добавляем в путь
-                    val x = ax * tNormalized * tNormalized * tNormalized + bx * tNormalized * tNormalized + cx * tNormalized + x0
-                    val y = ay * tNormalized * tNormalized * tNormalized + by * tNormalized * tNormalized + cy * tNormalized + y0
+                    val x =
+                        ax * tNormalized * tNormalized * tNormalized + bx * tNormalized * tNormalized + cx * tNormalized + x0
+                    val y =
+                        ay * tNormalized * tNormalized * tNormalized + by * tNormalized * tNormalized + cy * tNormalized + y0
                     path.lineTo(x, y)
                 }
             }
@@ -144,9 +144,11 @@ class FifthAlgorithm : AppCompatActivity() {
                 MotionEvent.ACTION_DOWN -> {
                     points.add(x to y)
                 }
+
                 MotionEvent.ACTION_MOVE -> {
                     points.add(x to y)
                 }
+
                 MotionEvent.ACTION_UP -> {
                     points.add(x to y)
                 }

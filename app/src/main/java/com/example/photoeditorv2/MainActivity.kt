@@ -19,7 +19,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import java.io.File
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,24 +33,26 @@ class MainActivity : AppCompatActivity() {
     private lateinit var infoText: TextView
     private var uri: Uri? = null
 
-    private val cameraImage = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
-        if (success) {
-            mainImageInput.setImageURI(uri)
-            hideViews()
-        } else {
-            Toast.makeText(this, "Ошибка, изображение не выбрано", Toast.LENGTH_SHORT).show()
+    private val cameraImage =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+            if (success) {
+                mainImageInput.setImageURI(uri)
+                hideViews()
+            } else {
+                Toast.makeText(this, "Ошибка, изображение не выбрано", Toast.LENGTH_SHORT).show()
+            }
         }
-    }
 
-    private val galleryImage = registerForActivityResult(ActivityResultContracts.GetContent()) { resultUri ->
-        resultUri?.let {
-            uri = it
-            mainImageInput.setImageURI(uri)
-            hideViews()
-        } ?: run {
-            Toast.makeText(this, "Ошибка, изображение не выбрано", Toast.LENGTH_SHORT).show()
+    private val galleryImage =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { resultUri ->
+            resultUri?.let {
+                uri = it
+                mainImageInput.setImageURI(uri)
+                hideViews()
+            } ?: run {
+                Toast.makeText(this, "Ошибка, изображение не выбрано", Toast.LENGTH_SHORT).show()
+            }
         }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -102,6 +105,7 @@ class MainActivity : AppCompatActivity() {
             cameraImage.launch(uri)
         }
     }
+
     private fun createImageUriForCamera(): Uri {
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val storageDir: File? = getExternalFilesDir(null)
@@ -116,12 +120,14 @@ class MainActivity : AppCompatActivity() {
             imageFile
         )
     }
+
     private fun hideViews() {
         imageChooseFromGallery.visibility = View.GONE
         imageChooseFromCamera.visibility = View.GONE
         icWaitPhoto.visibility = View.GONE
         infoText.visibility = View.GONE
     }
+
     private fun checkPermissions() {
         val permissions = arrayOf(
             Manifest.permission.CAMERA,
@@ -136,7 +142,12 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, permissionsToRequest.toTypedArray(), 0)
         }
     }
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 0) {
             if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {

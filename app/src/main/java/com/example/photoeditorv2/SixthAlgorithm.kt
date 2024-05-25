@@ -1,8 +1,8 @@
 package com.example.photoeditorv2
 
 import android.content.ContentValues
-import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
@@ -15,7 +15,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.io.IOException
 import kotlin.math.abs
-import android.graphics.Color
 
 class SixthAlgorithm : AppCompatActivity() {
     private lateinit var originalBitmap: Bitmap
@@ -37,8 +36,7 @@ class SixthAlgorithm : AppCompatActivity() {
 
         val backToHome = findViewById<TextView>(R.id.back)
         backToHome.setOnClickListener {
-            val intent = Intent(this, InstrumentsActivity::class.java)
-            startActivity(intent)
+            finish()
         }
 
         val drawable = imageView.drawable
@@ -64,6 +62,7 @@ class SixthAlgorithm : AppCompatActivity() {
                     lastY = event.y
                     applyRetouch(x, y)
                 }
+
                 MotionEvent.ACTION_MOVE -> {
                     val dx = event.x - lastX
                     val dy = event.y - lastY
@@ -96,6 +95,7 @@ class SixthAlgorithm : AppCompatActivity() {
         })
 
     }
+
     private fun getBitmapPosition(x: Float, y: Float): Pair<Int, Int> {
         val imageMatrix = imageView.imageMatrix
         val drawable = imageView.drawable
@@ -112,7 +112,7 @@ class SixthAlgorithm : AppCompatActivity() {
         val origW = drawable.intrinsicWidth
         val origH = drawable.intrinsicHeight
 
-        val finalX = ((x - transX) /scaleX).toInt()
+        val finalX = ((x - transX) / scaleX).toInt()
         val finalY = ((y - transY) / scaleY).toInt()
 
         return Pair(finalX.coerceIn(0, origW - 1), finalY.coerceIn(0, origH - 1))
@@ -122,20 +122,29 @@ class SixthAlgorithm : AppCompatActivity() {
         val radius = brush.size / 2
         val startX = (x - radius).coerceAtLeast(0)
         val startY = (y - radius).coerceAtLeast(0)
-        val endX =(x + radius).coerceAtMost(originalBitmap.width - 1)
+        val endX = (x + radius).coerceAtMost(originalBitmap.width - 1)
         val endY = (y + radius).coerceAtMost(originalBitmap.height - 1)
 
         val centerX = x
         val centerY = y
 
         val pixels = IntArray((endX - startX + 1) * (endY - startY + 1))
-        originalBitmap.getPixels(pixels, 0, endX - startX + 1, startX, startY, endX - startX + 1, endY - startY + 1)
+        originalBitmap.getPixels(
+            pixels,
+            0,
+            endX - startX + 1,
+            startX,
+            startY,
+            endX - startX + 1,
+            endY - startY + 1
+        )
 
         val avgColor = calculateAverageColor(pixels)
 
         for (i in startX..endX) {
             for (j in startY..endY) {
-                val distance = kotlin.math.sqrt(((i - centerX) * (i - centerX) + (j - centerY) * (j - centerY)).toDouble())
+                val distance =
+                    kotlin.math.sqrt(((i - centerX) * (i - centerX) + (j - centerY) * (j - centerY)).toDouble())
                 if (distance <= radius) {
                     if (i in 0 until originalBitmap.width && j in 0 until originalBitmap.height) {
                         val pixel = originalBitmap.getPixel(i, j)
@@ -148,10 +157,11 @@ class SixthAlgorithm : AppCompatActivity() {
 
         imageView.setImageBitmap(originalBitmap)
     }
+
     private fun blendColors(color1: Int, color2: Int, ratio: Float): Int {
-        val r = (Color.red(color1) * (1 - ratio) + Color.red(color2)* ratio).toInt()
+        val r = (Color.red(color1) * (1 - ratio) + Color.red(color2) * ratio).toInt()
         val g = (Color.green(color1) * (1 - ratio) + Color.green(color2) * ratio).toInt()
-        val b = (Color.blue(color1) * (1 - ratio)+ Color.blue(color2) * ratio).toInt()
+        val b = (Color.blue(color1) * (1 - ratio) + Color.blue(color2) * ratio).toInt()
         val a = (Color.alpha(color1) * (1 - ratio) + Color.alpha(color2) * ratio).toInt()
         return Color.argb(a, r, g, b)
     }
@@ -169,9 +179,9 @@ class SixthAlgorithm : AppCompatActivity() {
             count++
         }
 
-        val avgR = R/count
-        val avgG = G/count
-        val avgB = B/ count
+        val avgR = R / count
+        val avgG = G / count
+        val avgB = B / count
 
         return Color.rgb(avgR, avgG, avgB)
     }

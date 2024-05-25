@@ -1,19 +1,21 @@
 package com.example.photoeditorv2
 
 import android.content.ContentValues
-import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.ImageView
+import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.IOException
-import android.graphics.Color
-import android.widget.SeekBar
-import kotlinx.coroutines.*
 
 class SeventhAlgorithm : AppCompatActivity() {
 
@@ -36,8 +38,7 @@ class SeventhAlgorithm : AppCompatActivity() {
 
         val backToHome = findViewById<TextView>(R.id.back)
         backToHome.setOnClickListener {
-            val intent = Intent(this, InstrumentsActivity::class.java)
-            startActivity(intent)
+            finish()
         }
 
         val imageView = findViewById<ImageView>(R.id.CopyImageInputFilter7)
@@ -46,29 +47,36 @@ class SeventhAlgorithm : AppCompatActivity() {
             originalBitmap = drawable.bitmap.copy(Bitmap.Config.ARGB_8888, true)
         }
 
-        findViewById<SeekBar>(R.id.radiusSeekBar).setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        findViewById<SeekBar>(R.id.radiusSeekBar).setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 radius = progress
                 findViewById<TextView>(R.id.radiusSeekBarTextView).text = "radius: $radius"
             }
+
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
-        findViewById<SeekBar>(R.id.multiplierSeekBar).setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        findViewById<SeekBar>(R.id.multiplierSeekBar).setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 multiplier = progress / 10.0
-                findViewById<TextView>(R.id.multiplierSeekBarTextView).text = "multiplier: $multiplier"
+                findViewById<TextView>(R.id.multiplierSeekBarTextView).text =
+                    "multiplier: $multiplier"
             }
+
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
-        findViewById<SeekBar>(R.id.thresholdSeekBar).setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        findViewById<SeekBar>(R.id.thresholdSeekBar).setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 threshold = progress
                 findViewById<TextView>(R.id.thresholdSeekBarTextView).text = "threshold: $threshold"
             }
+
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
@@ -173,48 +181,49 @@ class SeventhAlgorithm : AppCompatActivity() {
         newBitmap
     }
 
-    private suspend fun blurFilter(source: Bitmap, radius: Int): Bitmap = withContext(Dispatchers.Default) {
-        val width = source.width
-        val height = source.height
-        val pixels = IntArray(width * height)
-        source.getPixels(pixels, 0, width, 0, 0, width, height)
+    private suspend fun blurFilter(source: Bitmap, radius: Int): Bitmap =
+        withContext(Dispatchers.Default) {
+            val width = source.width
+            val height = source.height
+            val pixels = IntArray(width * height)
+            source.getPixels(pixels, 0, width, 0, 0, width, height)
 
-        val newPixels = IntArray(pixels.size)
+            val newPixels = IntArray(pixels.size)
 
-        for (y in 0 until height) {
-            for (x in 0 until width) {
-                var sumRed = 0
-                var sumGreen = 0
-                var sumBlue = 0
-                var pixelCount = 0
+            for (y in 0 until height) {
+                for (x in 0 until width) {
+                    var sumRed = 0
+                    var sumGreen = 0
+                    var sumBlue = 0
+                    var pixelCount = 0
 
-                for (j in -radius..radius) {
-                    for (i in -radius..radius) {
-                        val offsetX = x + i
-                        val offsetY = y + j
+                    for (j in -radius..radius) {
+                        for (i in -radius..radius) {
+                            val offsetX = x + i
+                            val offsetY = y + j
 
-                        if (offsetX in 0 until width && offsetY in 0 until height) {
-                            val color = pixels[offsetY * width + offsetX]
-                            sumRed += Color.red(color)
-                            sumGreen += Color.green(color)
-                            sumBlue += Color.blue(color)
-                            pixelCount++
+                            if (offsetX in 0 until width && offsetY in 0 until height) {
+                                val color = pixels[offsetY * width + offsetX]
+                                sumRed += Color.red(color)
+                                sumGreen += Color.green(color)
+                                sumBlue += Color.blue(color)
+                                pixelCount++
+                            }
                         }
                     }
+
+                    val avgRed = sumRed / pixelCount
+                    val avgGreen = sumGreen / pixelCount
+                    val avgBlue = sumBlue / pixelCount
+
+                    newPixels[y * width + x] = Color.rgb(avgRed, avgGreen, avgBlue)
                 }
-
-                val avgRed = sumRed / pixelCount
-                val avgGreen = sumGreen / pixelCount
-                val avgBlue = sumBlue / pixelCount
-
-                newPixels[y * width + x] = Color.rgb(avgRed, avgGreen, avgBlue)
             }
-        }
 
-        val newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        newBitmap.setPixels(newPixels, 0, width, 0, 0, width, height)
-        newBitmap
-    }
+            val newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+            newBitmap.setPixels(newPixels, 0, width, 0, 0, width, height)
+            newBitmap
+        }
 
     private fun applyFilter(imageView: ImageView) {
         CoroutineScope(Dispatchers.Main).launch {

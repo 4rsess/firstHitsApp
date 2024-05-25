@@ -1,8 +1,6 @@
 package com.example.photoeditorv2
 
-import android.annotation.SuppressLint
 import android.content.ContentValues
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
@@ -29,7 +27,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
-class FourthAlgorithm : AppCompatActivity(){
+class FourthAlgorithm : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +49,7 @@ class FourthAlgorithm : AppCompatActivity(){
         }
 
 
-        findViewById<ImageView>(R.id.cancelBtn).setOnClickListener{
+        findViewById<ImageView>(R.id.cancelBtn).setOnClickListener {
             finish()
         }
 
@@ -64,20 +62,20 @@ class FourthAlgorithm : AppCompatActivity(){
 
     }
 
-    override fun onResume()  {
+    override fun onResume() {
         super.onResume()
         val imageView = findViewById<ImageView>(R.id.CopyImageInputFilter4)
 
         runBlocking {
-            launch(Dispatchers.Default){
-                val cascadeDir: File = getDir( "cascade", MODE_PRIVATE);
+            launch(Dispatchers.Default) {
+                val cascadeDir: File = getDir("cascade", MODE_PRIVATE);
                 val cascFile = File(cascadeDir, "lbpcascade_frontalface_improved.xml");
 
-                if(!OpenCVLoader.initLocal()){
+                if (!OpenCVLoader.initLocal()) {
                     Log.e("opencv", "OpenCV initialization failed.")
                 } else {
                     val _is = getResources().openRawResource(R.raw.lbpcascade_frontalface_improved);
-                    val fos =  FileOutputStream(cascFile);
+                    val fos = FileOutputStream(cascFile);
                     fos.write(_is.readBytes())
                     _is.close();
                     fos.close();
@@ -88,18 +86,19 @@ class FourthAlgorithm : AppCompatActivity(){
                 val faces_rect = MatOfRect()
                 val bmp = drawableToBitmap(imageView.drawable)
                 val mat = Mat()
-                Utils.bitmapToMat(bmp,mat)
-                face_cascade.detectMultiScale(mat,faces_rect)
+                Utils.bitmapToMat(bmp, mat)
+                face_cascade.detectMultiScale(mat, faces_rect)
 
-                for(rect in faces_rect.toArray()){
-                    rectangle(mat,
+                for (rect in faces_rect.toArray()) {
+                    rectangle(
+                        mat,
                         Point(rect.x.toDouble(), rect.y.toDouble()),
-                        Point((rect.x+rect.width).toDouble(), (rect.y+rect.height).toDouble()),
-                        Scalar(1.0,40.0,100.0),
+                        Point((rect.x + rect.width).toDouble(), (rect.y + rect.height).toDouble()),
+                        Scalar(1.0, 40.0, 100.0),
                         5
                     );
                 }
-                Utils.matToBitmap(mat,bmp)
+                Utils.matToBitmap(mat, bmp)
                 imageView.setImageBitmap(bmp)
             }
         }
@@ -120,6 +119,7 @@ class FourthAlgorithm : AppCompatActivity(){
         }
         return bitmap
     }
+
     private fun saveImageToGallery(bitmap: Bitmap) {
         val resolver = applicationContext.contentResolver
         val contentValues = ContentValues().apply {

@@ -5,8 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@color/main_bg_color">
+    android:background="@color/main_bg_color"
+    tools:context=".MainActivity">
 
     <View
         android:id="@+id/topBar"
@@ -15,51 +15,46 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.0" />
 
 
     <TextView
         android:id="@+id/imageButtonView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/open_image_button"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/topBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.042"
         app:layout_constraintStart_toStartOf="@+id/topBar"
-        app:layout_constraintTop_toTopOf="@+id/topBar"
-        app:layout_constraintVertical_bias="0.516" />
+        app:layout_constraintTop_toTopOf="@+id/topBar" />
 
     <TextView
         android:id="@+id/buttonNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/button_next"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/topBar"
         app:layout_constraintEnd_toEndOf="@+id/topBar"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintStart_toEndOf="@+id/imageButtonView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.888" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
         android:id="@+id/infoText"
-        android:layout_width="350dp"
+        android:layout_width="0dp"
         android:layout_height="94dp"
-        android:layout_marginStart="25dp"
+        android:layout_marginStart="35dp"
         android:layout_marginTop="7dp"
+        android:layout_marginEnd="35dp"
         android:fontFamily="@font/montserrat_bold"
         android:text="@string/open_image"
         android:textSize="17sp"
-        app:layout_constraintEnd_toEndOf="@+id/MainImageInput"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/MainImageInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/waitPhoto" />
 
     <ImageView
@@ -88,12 +83,12 @@
         android:id="@+id/tapGallery"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginEnd="136dp"
+        android:layout_marginEnd="36dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tapCamera"
         app:srcCompat="@drawable/ic_gallery" />
 
     <ImageView
@@ -107,7 +102,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_cameraa" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

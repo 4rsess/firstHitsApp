@@ -65,6 +65,7 @@ class InstrumentsActivity : AppCompatActivity() {
 
 
     }
+
     private fun saveImageToGallery(bitmap: Bitmap) {
         val resolver = applicationContext.contentResolver
         val contentValues = ContentValues().apply {

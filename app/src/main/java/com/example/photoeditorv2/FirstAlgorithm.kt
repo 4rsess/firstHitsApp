@@ -4,16 +4,15 @@ import android.content.ContentValues
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import android.content.Intent
 import android.provider.MediaStore
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import java.io.IOException
 
-class FirstAlgorithm : AppCompatActivity(){
+class FirstAlgorithm : AppCompatActivity() {
 
     private lateinit var originalBitmap: Bitmap
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,8 +52,7 @@ class FirstAlgorithm : AppCompatActivity(){
 
         val backToHome = findViewById<TextView>(R.id.back)
         backToHome.setOnClickListener {
-            val intent = Intent(this, InstrumentsActivity::class.java)
-            startActivity(intent)
+            finish()
         }
 
 
@@ -75,6 +73,7 @@ class FirstAlgorithm : AppCompatActivity(){
 
 
     }
+
     private fun saveImageToGallery(bitmap: Bitmap) {
         val resolver = applicationContext.contentResolver
         val contentValues = ContentValues().apply {

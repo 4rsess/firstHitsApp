@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_bg_color">
@@ -13,16 +12,15 @@
         android:layout_marginStart="45dp"
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-         />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
-        android:layout_height="210dp"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/filter1"
@@ -51,10 +49,10 @@
             android:id="@+id/filter4"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="97dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/filter1"
+            app:layout_constraintStart_toStartOf="@+id/filter1"
+            app:layout_constraintTop_toBottomOf="@+id/nameFilter1"
             app:srcCompat="@drawable/ic_facerecognition_algorithm" />
 
         <ImageView
@@ -71,101 +69,97 @@
             android:id="@+id/filter6"
             android:layout_width="57dp"
             android:layout_height="57dp"
-            android:layout_marginStart="57dp"
-            android:layout_marginTop="104dp"
-            app:layout_constraintEnd_toStartOf="@+id/filter7"
-            app:layout_constraintHorizontal_bias="0.063"
-            app:layout_constraintStart_toEndOf="@+id/filter4"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/filter3"
+            app:layout_constraintStart_toStartOf="@+id/filter3"
+            app:layout_constraintTop_toBottomOf="@+id/nameFilter3"
             app:srcCompat="@drawable/ic_retouching_algorithm" />
 
         <ImageView
             android:id="@+id/filter7"
             android:layout_width="58dp"
             android:layout_height="58dp"
-            android:layout_marginTop="104dp"
-            android:layout_marginEnd="43dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/filter5"
+            app:layout_constraintStart_toStartOf="@+id/filter5"
+            app:layout_constraintTop_toBottomOf="@+id/nameFilter5"
             app:srcCompat="@drawable/ic_increaseclarity_algorithm" />
 
         <TextView
             android:id="@+id/nameFilter1"
-            android:layout_width="40dp"
+            android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:layout_marginStart="47dp"
             android:layout_marginTop="4dp"
             android:fontFamily="@font/montserrat_medium"
             android:gravity="center"
             android:text="@string/name_turn_algorithm"
             android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/filter1"
+            app:layout_constraintStart_toStartOf="@+id/filter1"
             app:layout_constraintTop_toBottomOf="@+id/filter1" />
 
         <TextView
             android:id="@+id/nameFilter3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="81dp"
             android:layout_marginTop="4dp"
             android:fontFamily="@font/montserrat_medium"
             android:gravity="center"
             android:text="@string/name_scaling_algorithm"
             android:textSize="15sp"
-            app:layout_constraintStart_toEndOf="@+id/nameFilter1"
+            app:layout_constraintEnd_toEndOf="@+id/filter3"
+            app:layout_constraintStart_toStartOf="@+id/filter3"
             app:layout_constraintTop_toBottomOf="@+id/filter3" />
 
         <TextView
             android:id="@+id/nameFilter4"
-            android:layout_width="85dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="23dp"
-            android:layout_marginBottom="9dp"
+            android:layout_width="80dp"
+            android:layout_height="0dp"
             android:fontFamily="@font/montserrat_medium"
             android:gravity="center"
             android:text="@string/name_facerecognition_algorithm"
             android:textSize="13sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintEnd_toEndOf="@+id/filter4"
+            app:layout_constraintStart_toStartOf="@+id/filter4"
+            app:layout_constraintTop_toBottomOf="@+id/filter4" />
 
         <TextView
             android:id="@+id/nameFilter5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:layout_marginEnd="47dp"
             android:fontFamily="@font/montserrat_medium"
             android:gravity="center"
             android:text="@string/name_splines_algorithm"
             android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/filter5"
+            app:layout_constraintStart_toStartOf="@+id/filter5"
             app:layout_constraintTop_toBottomOf="@+id/filter5" />
 
         <TextView
             android:id="@+id/nameFilter6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="45dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="5dp"
             android:fontFamily="@font/montserrat_medium"
             android:gravity="center"
             android:text="@string/name_retouching_algorithm"
             android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@+id/nameFilter7"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/nameFilter4"
+            app:layout_constraintEnd_toEndOf="@+id/filter6"
+            app:layout_constraintStart_toStartOf="@+id/filter6"
             app:layout_constraintTop_toBottomOf="@+id/filter6" />
 
         <TextView
             android:id="@+id/nameFilter7"
-            android:layout_width="85dp"
-            android:layout_height="38dp"
-            android:layout_marginEnd="30dp"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
             android:fontFamily="@font/montserrat_medium"
             android:gravity="center"
             android:text="@string/name_blurredmasking_algorithm"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/filter7"
+            app:layout_constraintStart_toStartOf="@+id/filter7"
             app:layout_constraintTop_toBottomOf="@+id/filter7" />
 
 

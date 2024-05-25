@@ -1,24 +1,26 @@
 package com.example.photoeditorv2
 
 import android.content.ContentValues
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import android.graphics.Color
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.IOException
 
 data class Filter(val name: String, val filterFunction: suspend (Bitmap) -> Bitmap)
@@ -32,7 +34,8 @@ class FiltersAdapter(
     private var selectedPosition = RecyclerView.NO_POSITION
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilterViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.filter_layout, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.filter_layout, parent, false)
         return FilterViewHolder(view)
     }
 
@@ -106,14 +109,15 @@ class SecondAlgorithm : AppCompatActivity() {
             )
 
             val filtersView = findViewById<RecyclerView>(R.id.filtersView)
-            filtersView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            filtersView.layoutManager =
+                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
             filtersView.adapter = FiltersAdapter(filters, originalBitmap) { filter ->
                 applyFilter(imageView, filter.filterFunction)
             }
         }
 
         findViewById<TextView>(R.id.back).setOnClickListener {
-            startActivity(Intent(this, InstrumentsActivity::class.java))
+            finish()
         }
 
         val saveButton = findViewById<ImageView>(R.id.battonSaveFromFilter2)
@@ -153,7 +157,11 @@ class SecondAlgorithm : AppCompatActivity() {
         val bitmap: Bitmap = if (drawable is BitmapDrawable) {
             drawable.bitmap
         } else {
-            Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888).apply {
+            Bitmap.createBitmap(
+                drawable.intrinsicWidth,
+                drawable.intrinsicHeight,
+                Bitmap.Config.ARGB_8888
+            ).apply {
                 val canvas = Canvas(this)
                 drawable.setBounds(0, 0, canvas.width, canvas.height)
                 drawable.draw(canvas)
@@ -232,98 +240,101 @@ class SecondAlgorithm : AppCompatActivity() {
         newBitmap
     }
 
-    private suspend fun blackAndWhiteFilter(source: Bitmap): Bitmap = withContext(Dispatchers.Default) {
-        val width = source.width
-        val height = source.height
-        val pixels = IntArray(width * height)
-        source.getPixels(pixels, 0, width, 0, 0, width, height)
+    private suspend fun blackAndWhiteFilter(source: Bitmap): Bitmap =
+        withContext(Dispatchers.Default) {
+            val width = source.width
+            val height = source.height
+            val pixels = IntArray(width * height)
+            source.getPixels(pixels, 0, width, 0, 0, width, height)
 
-        for (i in pixels.indices) {
-            val color = pixels[i]
-            val bw = (Color.red(color) + Color.green(color) + Color.blue(color)) / 3
-            pixels[i] = Color.rgb(bw, bw, bw)
+            for (i in pixels.indices) {
+                val color = pixels[i]
+                val bw = (Color.red(color) + Color.green(color) + Color.blue(color)) / 3
+                pixels[i] = Color.rgb(bw, bw, bw)
+            }
+
+            val newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+            newBitmap.setPixels(pixels, 0, width, 0, 0, width, height)
+            newBitmap
         }
 
-        val newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        newBitmap.setPixels(pixels, 0, width, 0, 0, width, height)
-        newBitmap
-    }
+    private suspend fun mosaicFilter(source: Bitmap, blockSize: Int = 15): Bitmap =
+        withContext(Dispatchers.Default) {
+            val width = source.width
+            val height = source.height
+            val pixels = IntArray(width * height)
+            source.getPixels(pixels, 0, width, 0, 0, width, height)
 
-    private suspend fun mosaicFilter(source: Bitmap, blockSize: Int = 15): Bitmap = withContext(Dispatchers.Default) {
-        val width = source.width
-        val height = source.height
-        val pixels = IntArray(width * height)
-        source.getPixels(pixels, 0, width, 0, 0, width, height)
+            for (y in 0 until height step blockSize) {
+                for (x in 0 until width step blockSize) {
+                    var redSum = 0
+                    var greenSum = 0
+                    var blueSum = 0
+                    var pixelsInCurrentBlock = 0
 
-        for (y in 0 until height step blockSize) {
-            for (x in 0 until width step blockSize) {
-                var redSum = 0
-                var greenSum = 0
-                var blueSum = 0
-                var pixelsInCurrentBlock = 0
-
-                for (j in 0 until blockSize) {
-                    for (i in 0 until blockSize) {
-                        val pixelY = y + j
-                        val pixelX = x + i
-                        if (pixelY < height && pixelX < width) {
-                            val color = pixels[pixelY * width + pixelX]
-                            redSum += Color.red(color)
-                            greenSum += Color.green(color)
-                            blueSum += Color.blue(color)
-                            pixelsInCurrentBlock++
+                    for (j in 0 until blockSize) {
+                        for (i in 0 until blockSize) {
+                            val pixelY = y + j
+                            val pixelX = x + i
+                            if (pixelY < height && pixelX < width) {
+                                val color = pixels[pixelY * width + pixelX]
+                                redSum += Color.red(color)
+                                greenSum += Color.green(color)
+                                blueSum += Color.blue(color)
+                                pixelsInCurrentBlock++
+                            }
                         }
                     }
-                }
 
-                val averageRed = redSum / pixelsInCurrentBlock
-                val averageGreen = greenSum / pixelsInCurrentBlock
-                val averageBlue = blueSum / pixelsInCurrentBlock
-                val averageColor = Color.rgb(averageRed, averageGreen, averageBlue)
+                    val averageRed = redSum / pixelsInCurrentBlock
+                    val averageGreen = greenSum / pixelsInCurrentBlock
+                    val averageBlue = blueSum / pixelsInCurrentBlock
+                    val averageColor = Color.rgb(averageRed, averageGreen, averageBlue)
 
-                for (j in 0 until blockSize) {
-                    for (i in 0 until blockSize) {
-                        val pixelY = y + j
-                        val pixelX = x + i
-                        if (pixelY < height && pixelX < width) {
-                            pixels[pixelY * width + pixelX] = averageColor
+                    for (j in 0 until blockSize) {
+                        for (i in 0 until blockSize) {
+                            val pixelY = y + j
+                            val pixelX = x + i
+                            if (pixelY < height && pixelX < width) {
+                                pixels[pixelY * width + pixelX] = averageColor
+                            }
                         }
                     }
                 }
             }
+
+            val newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+            newBitmap.setPixels(pixels, 0, width, 0, 0, width, height)
+            newBitmap
         }
 
-        val newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        newBitmap.setPixels(pixels, 0, width, 0, 0, width, height)
-        newBitmap
-    }
+    private suspend fun contrastFilter(source: Bitmap, contrastLevel: Double = -100.0): Bitmap =
+        withContext(Dispatchers.Default) {
+            val width = source.width
+            val height = source.height
+            val pixels = IntArray(width * height)
+            source.getPixels(pixels, 0, width, 0, 0, width, height)
 
-    private suspend fun contrastFilter(source: Bitmap, contrastLevel: Double = -100.0): Bitmap = withContext(Dispatchers.Default) {
-        val width = source.width
-        val height = source.height
-        val pixels = IntArray(width * height)
-        source.getPixels(pixels, 0, width, 0, 0, width, height)
+            val factor = (259 * (contrastLevel + 255)) / (255 * (259 - contrastLevel))
 
-        val factor = (259 * (contrastLevel + 255)) / (255 * (259 - contrastLevel))
+            for (i in pixels.indices) {
+                val color = pixels[i]
 
-        for (i in pixels.indices) {
-            val color = pixels[i]
+                val red = Color.red(color)
+                val green = Color.green(color)
+                val blue = Color.blue(color)
 
-            val red = Color.red(color)
-            val green = Color.green(color)
-            val blue = Color.blue(color)
+                val newRed = (factor * (red - 128) + 128).coerceIn(0.0, 255.0)
+                val newGreen = (factor * (green - 128) + 128).coerceIn(0.0, 255.0)
+                val newBlue = (factor * (blue - 128) + 128).coerceIn(0.0, 255.0)
 
-            val newRed = (factor * (red - 128) + 128).coerceIn(0.0, 255.0)
-            val newGreen = (factor * (green - 128) + 128).coerceIn(0.0, 255.0)
-            val newBlue = (factor * (blue - 128) + 128).coerceIn(0.0, 255.0)
+                pixels[i] = Color.rgb(newRed.toInt(), newGreen.toInt(), newBlue.toInt())
+            }
 
-            pixels[i] = Color.rgb(newRed.toInt(), newGreen.toInt(), newBlue.toInt())
+            val newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+            newBitmap.setPixels(pixels, 0, width, 0, 0, width, height)
+            newBitmap
         }
-
-        val newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        newBitmap.setPixels(pixels, 0, width, 0, 0, width, height)
-        newBitmap
-    }
 
     private suspend fun sharpenFilter(source: Bitmap): Bitmap = withContext(Dispatchers.Default) {
         val width = source.width
@@ -369,62 +380,65 @@ class SecondAlgorithm : AppCompatActivity() {
         newBitmap
     }
 
-    private suspend fun vignetteFilter(source: Bitmap, strength: Double = 0.8): Bitmap = withContext(Dispatchers.Default) {
-        val width = source.width
-        val height = source.height
-        val pixels = IntArray(width * height)
-        source.getPixels(pixels, 0, width, 0, 0, width, height)
+    private suspend fun vignetteFilter(source: Bitmap, strength: Double = 0.8): Bitmap =
+        withContext(Dispatchers.Default) {
+            val width = source.width
+            val height = source.height
+            val pixels = IntArray(width * height)
+            source.getPixels(pixels, 0, width, 0, 0, width, height)
 
-        val centerX = width / 2
-        val centerY = height / 2
-        val maxDistance = Math.sqrt((centerX * centerX + centerY * centerY).toDouble())
+            val centerX = width / 2
+            val centerY = height / 2
+            val maxDistance = Math.sqrt((centerX * centerX + centerY * centerY).toDouble())
 
-        for (y in 0 until height) {
-            for (x in 0 until width) {
-                val distance = Math.sqrt(((x - centerX) * (x - centerX) + (y - centerY) * (y - centerY)).toDouble())
-                val vignette = 1 - distance / maxDistance * strength
+            for (y in 0 until height) {
+                for (x in 0 until width) {
+                    val distance =
+                        Math.sqrt(((x - centerX) * (x - centerX) + (y - centerY) * (y - centerY)).toDouble())
+                    val vignette = 1 - distance / maxDistance * strength
 
-                val index = y * width + x
-                val color = pixels[index]
+                    val index = y * width + x
+                    val color = pixels[index]
 
-                val red = (Color.red(color) * vignette).toInt().coerceIn(0, 255)
-                val green = (Color.green(color) * vignette).toInt().coerceIn(0, 255)
-                val blue = (Color.blue(color) * vignette).toInt().coerceIn(0, 255)
+                    val red = (Color.red(color) * vignette).toInt().coerceIn(0, 255)
+                    val green = (Color.green(color) * vignette).toInt().coerceIn(0, 255)
+                    val blue = (Color.blue(color) * vignette).toInt().coerceIn(0, 255)
 
-                pixels[index] = Color.rgb(red, green, blue)
+                    pixels[index] = Color.rgb(red, green, blue)
+                }
             }
+
+            val newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+            newBitmap.setPixels(pixels, 0, width, 0, 0, width, height)
+            newBitmap
         }
 
-        val newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        newBitmap.setPixels(pixels, 0, width, 0, 0, width, height)
-        newBitmap
-    }
+    private suspend fun silhouetteFilter(source: Bitmap): Bitmap =
+        withContext(Dispatchers.Default) {
+            val width = source.width
+            val height = source.height
+            val pixels = IntArray(width * height)
+            source.getPixels(pixels, 0, width, 0, 0, width, height)
 
-    private suspend fun silhouetteFilter(source: Bitmap): Bitmap = withContext(Dispatchers.Default) {
-        val width = source.width
-        val height = source.height
-        val pixels = IntArray(width * height)
-        source.getPixels(pixels, 0, width, 0, 0, width, height)
+            val threshold = 128
 
-        val threshold = 128
+            for (i in pixels.indices) {
+                val color = pixels[i]
+                val red = Color.red(color)
+                val green = Color.green(color)
+                val blue = Color.blue(color)
 
-        for (i in pixels.indices) {
-            val color = pixels[i]
-            val red = Color.red(color)
-            val green = Color.green(color)
-            val blue = Color.blue(color)
+                val brightness = (red + green + blue) / 3
 
-            val brightness = (red + green + blue) / 3
+                val newColor = if (brightness > threshold) Color.WHITE else Color.BLACK
 
-            val newColor = if (brightness > threshold) Color.WHITE else Color.BLACK
+                pixels[i] = newColor
+            }
 
-            pixels[i] = newColor
+            val newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+            newBitmap.setPixels(pixels, 0, width, 0, 0, width, height)
+            newBitmap
         }
-
-        val newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        newBitmap.setPixels(pixels, 0, width, 0, 0, width, height)
-        newBitmap
-    }
 
     private fun applyFilter(imageView: ImageView, filterFunction: suspend (Bitmap) -> Bitmap) {
         CoroutineScope(Dispatchers.Main).launch {
